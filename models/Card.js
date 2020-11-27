@@ -1,6 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
-const cardSchema = new Schema({
+const cardSchema = new mongoose.Schema({
 	user: {
 		type: mongoose.Types.ObjectId,
 		ref: "user",
