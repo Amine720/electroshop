@@ -4,6 +4,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
 import users from "./routes/users.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const __dirname = path.resolve();

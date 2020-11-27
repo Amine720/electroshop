@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { login } from "../controllers/users.js/users.js";
 import { register } from "../controllers/users.js/users.js";
+import { verify } from "../controllers/users.js/users.js";
 
 const router = Router();
 
@@ -30,6 +31,11 @@ router.post("/register", async (req, res) => {
 	} catch (err) {
 		console.log(err.message);
 	}
+});
+
+router.get("/register/verify/:id", async (req, res) => {
+	const response = await verify(req.params.id);
+	return res.json(response);
 });
 
 export default router;

@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import User from "../../models/User.js";
+import Card from "../../models/Card.js";
 import log from "../../logs/logs.js";
+import sendmail from "../../utils/mail.js";
 
 export const login = async (data) => {
 	try {
@@ -48,8 +50,32 @@ export const register = async ({
 			address,
 			country,
 		});
-		await user.save();
-		return { message: "User created successfully", status: 201 };
+
+		let registeredUser = await user.save();
+		let card = new Card({ user: registeredUser._id });
+		await card.save();
+		await sendmail(email, registeredUser._id);
+		return {
+			message:
+				"User created successfully, please verify your account through the email we sent you",
+			status: 201,
+		};
+	} catch (err) {
+		log(err.message);
+		console.log(err.message);
+	}
+};
+
+export const verify = async (id) => {
+	try {
+		let user = await User.findById(id);
+		if (user.verified !== true) {
+			user.verified = true;
+			await user.save();
+			return { message: "User is now verified" };
+		} else {
+			return { message: "User is already verified" };
+		}
 	} catch (err) {
 		log(err.message);
 		console.log(err.message);
