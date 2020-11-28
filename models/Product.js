@@ -17,11 +17,14 @@ const productSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	photo: {
-		type: String,
+	photos: {
+		type: Array,
 		required: true,
 	},
-	reviews: Array,
+	reviews: {
+		type: Array,
+		default: [],
+	},
 });
 
 const Product = mongoose.model("product", productSchema);

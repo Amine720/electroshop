@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
 import users from "./routes/users.js";
+import products from "./routes/products.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -31,7 +32,12 @@ app.get("/register", (req, res) => {
 	res.render("register");
 });
 
+app.get("/add-product", (req, res) => {
+	res.render("add-product");
+});
+
 app.use("/api/users", users);
+app.use("/api/products", products);
 
 const PORT = 5000 || process.env.PORT;
 app.listen(PORT, () => {
