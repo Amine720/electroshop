@@ -1,5 +1,5 @@
-import Card from "../../models/Card";
-import Product from "../../models/Product";
+import Card from "../../models/Card.js";
+import Product from "../../models/Product.js";
 
 export const cardNumberOfItems = async () => {
 	try {
