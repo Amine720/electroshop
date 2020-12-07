@@ -52,3 +52,21 @@ export const searchProductByCategory = async (categoryName) => {
 		return { error: err.message };
 	}
 };
+
+export const getFeaturedProducts = async () => {
+	try {
+		const products = await Product.find({ featured: true });
+		return { message: products };
+	} catch (err) {
+		return { error: err.message };
+	}
+};
+
+export const getNewArrivalProducts = async () => {
+	try {
+		const products = await Product.find({ new: true });
+		return { message: products };
+	} catch (err) {
+		return { error: err.message };
+	}
+};

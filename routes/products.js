@@ -2,6 +2,9 @@ import { Router } from "express";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import { addProduct } from "../controllers/products/products.js";
+import stripe from "stripe";
+
+const mStripe = stripe(process.env.stripe_secret_key);
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -22,6 +25,25 @@ router.post("/add", upload.array("photos", 10), async (req, res) => {
 		res.send(response.error);
 	}
 	res.status(201).json({ message: response.message });
+});
+
+router.post("/checkout", (req, res) => {
+	const { amount, stripeEmail, stripeToken, description } = req.body;
+
+	mStripe.customers
+		.create({
+			email: stripeEmail,
+			source: stripeToken,
+		})
+		.then((customer) =>
+			stripe.charges.create({
+				amount,
+				description: description,
+				currency: "usd",
+				customer: customer.id,
+			})
+		)
+		.then((charge) => res.render("success"));
 });
 
 export default router;

@@ -29,6 +29,10 @@ const productSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
+	new: {
+		type: Boolean,
+		default: false,
+	},
 	reviews: {
 		type: Array,
 		default: [],
