@@ -22,7 +22,7 @@ router.post("/add", upload.array("photos", 10), async (req, res) => {
 	let photos = req.files.map((file) => file.path);
 	const response = await addProduct({ ...req.body, photos });
 	if (response.error) {
-		res.send(response.error);
+		return res.send(response.error);
 	}
 	res.status(201).json({ message: response.message });
 });

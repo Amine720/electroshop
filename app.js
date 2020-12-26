@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import users from "./routes/users.js";
 import products from "./routes/products.js";
 import dotenv from "dotenv";
+import addProducts from "./seeders/product-seeder.js";
 dotenv.config();
 
 const app = express();
@@ -22,6 +23,11 @@ connectDB();
 
 app.get("/", (req, res) => {
 	res.send("Home route");
+});
+
+app.get("/seed", async (req, res) => {
+	await addProducts();
+	res.send("added-successfully");
 });
 
 app.get("/login", (req, res) => {

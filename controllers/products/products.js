@@ -9,6 +9,7 @@ export const addProduct = async (data) => {
 		await product.save();
 		return { message: "Product has been added succussfully" };
 	} catch (err) {
+		console.log(err.message);
 		return { error: "Error while adding the product" };
 	}
 };
