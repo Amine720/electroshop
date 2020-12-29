@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="fonts/NunitoSans-Regular.ttf" />
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/swiper/swiper-bundle.min.css"
+		/>
+		<link rel="stylesheet" href="/css/styles.css" />
+		<title>Electroshop</title>
+	</head>
+	<body>
+		<header>
+			<div>
+				<img src="assets/logo.png" />
+			</div>
+			<div class="header__account_cart">
+				<div class="account">
+					<div><ion-icon name="person-outline"></ion-icon></div>
+					<p>account</p>
+				</div>
+				<div class="card">
+					<div>
+						<div class="card-count">0</div>
+						<ion-icon name="cart-outline"></ion-icon>
+					</div>
+					<p>Card</p>
+				</div>
+			</div>
+		</header>
+
+		<!-- Hero section -->
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<img src="assets/item-1.png" />
+				</div>
+				<div class="swiper-slide">
+					<img src="assets/item-2.png" />
+				</div>
+				<div class="swiper-slide">
+					<img src="assets/item-3.png" />
+				</div>
+			</div>
+
+			<div class="swiper-pagination"></div>
+
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		</div>
+
+		<!-- Popular categories -->
+		<section class="section-category">
+			<h1>Popluar categories</h1>
+			<div class="categories">
+				<div>
+					<img src="assets/computer.jpg" />
+					<p>Computer &amp; Laptop</p>
+					<span>14 Devices</span>
+				</div>
+				<div>
+					<img src="assets/cameras.jpg" />
+					<p>Digital &amp; Cameras</p>
+					<span>11 Devices</span>
+				</div>
+				<div>
+					<img src="assets/phone.jpg" />
+					<p>Smartphones</p>
+					<span>15 Devices</span>
+				</div>
+				<div>
+					<img src="assets/tv.jpg" />
+					<p>Smart &amp; Televisions</p>
+					<span>24 Devices</span>
+				</div>
+				<div>
+					<img src="assets/watches.jpg" />
+					<p>Smart &amp; Watches</p>
+					<span>0 Devices</span>
+				</div>
+				<div>
+					<img src="assets/headphones.jpg" />
+					<p>Headphones</p>
+					<span>12 Devices</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- New Arrival -->
+		<section class="section-category new">
+			<h1>New Arrival</h1>
+			<div class="categories"></div>
+		</section>
+
+		<!-- Featured Products -->
+		<section class="section-category featured">
+			<h1>Featured Products</h1>
+			<div class="categories"></div>
+		</section>
+
+		<footers> Copyright </footers>
+
+		<!-- scripts -->
+		<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+		<script>
+			import Swiper, { Navigation, Pagination } from "swiper";
+			import "swiper/swiper-bundle.css";
+
+			Swiper.use([Navigation, Pagination]);
+
+			const mySwiper = new Swiper(".swiper-container", {
+				direction: "horizontal",
+				loop: true,
+				pagination: {
+					el: ".swiper-pagination",
+				},
+				navigation: {
+					nextEl: ".swiper-button-next",
+					prevEl: ".swiper-button-prev",
+				},
+			});
+		</script>
+		<script src="/js/index.js"></script>
+	</body>
+</html>

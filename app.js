@@ -14,6 +14,7 @@ const __dirname = path.resolve();
 app.use(helmet());
 app.use(morgan("common"));
 app.use(express.static(`${__dirname}/public`));
+app.use("/public/uploads/", express.static(`${__dirname}/public/uploads/`));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ extended: false }));
 app.set("view engine", "ejs");
@@ -22,7 +23,7 @@ app.set("view engine", "ejs");
 connectDB();
 
 app.get("/", (req, res) => {
-	res.send("Home route");
+	res.render("home");
 });
 
 app.get("/seed", async (req, res) => {

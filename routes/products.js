@@ -1,7 +1,11 @@
 import { Router } from "express";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
-import { addProduct } from "../controllers/products/products.js";
+import {
+	addProduct,
+	getFeaturedProducts,
+	getNewArrivalProducts,
+} from "../controllers/products/products.js";
 import stripe from "stripe";
 
 const mStripe = stripe(process.env.stripe_secret_key);
@@ -25,6 +29,22 @@ router.post("/add", upload.array("photos", 10), async (req, res) => {
 		return res.send(response.error);
 	}
 	res.status(201).json({ message: response.message });
+});
+
+router.get("/featured", async (req, res) => {
+	const response = await getFeaturedProducts();
+	if (response.error) {
+		return res.send(response.error);
+	}
+	res.status(200).json({ message: response.message });
+});
+
+router.get("/new", async (req, res) => {
+	const response = await getNewArrivalProducts();
+	if (response.error) {
+		return res.send(response.error);
+	}
+	res.status(200).json({ message: response.message });
 });
 
 router.post("/checkout", (req, res) => {
