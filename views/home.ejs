@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="fonts/NunitoSans-Regular.ttf" />
-		<link
-			rel="stylesheet"
-			href="https://unpkg.com/swiper/swiper-bundle.min.css"
-		/>
-		<link rel="stylesheet" href="/css/styles.css" />
-		<title>Electroshop</title>
-	</head>
+<%- include ('partials/nav') %> 
 	<body>
 		<header>
 			<div>
@@ -103,13 +91,8 @@
 		<footers> Copyright </footers>
 
 		<!-- scripts -->
-		<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+		<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 		<script>
-			import Swiper, { Navigation, Pagination } from "swiper";
-			import "swiper/swiper-bundle.css";
-
-			Swiper.use([Navigation, Pagination]);
-
 			const mySwiper = new Swiper(".swiper-container", {
 				direction: "horizontal",
 				loop: true,

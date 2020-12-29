@@ -1,0 +1,150 @@
+<%- include ('partials/nav') %> 
+	<body>
+		<header>
+			<div>
+				<img src="assets/logo.png" />
+			</div>
+			<div class="header__account_cart">
+				<div class="account">
+					<div><ion-icon name="person-outline"></ion-icon></div>
+					<p>account</p>
+				</div>
+				<div class="card">
+					<div>
+						<div class="card-count">0</div>
+						<ion-icon name="cart-outline"></ion-icon>
+					</div>
+					<p>Card</p>
+				</div>
+			</div>
+		</header>
+
+		<section class="product-info">
+			<div><img src="<%= product.photos[0] %>" /></div>
+			<div>
+				<h1><%= product.title %></h1>
+				<p class="price">&dollar;<%= product.price %></p>
+				<div class="review-count">
+					<div>
+						<ion-icon class="star" name="star"></ion-icon>
+						<ion-icon class="star" name="star"></ion-icon>
+						<ion-icon class="star" name="star"></ion-icon>
+						<ion-icon class="star" name="star"></ion-icon>
+						<ion-icon class="star" name="star"></ion-icon>
+					</div>
+					<p><%= product.reviews.length %>  Reviews</p>
+					<p>Add Your Review</p>
+				</div>
+				<div class="review-count stock">
+					<ion-icon class="checkmark" name="checkmark"></ion-icon>
+					<p>In stock</p>
+				</div>
+				<p class="product-id">SKU P-<%= product._id %></p>
+				<p class="description"><%= product.title %></p>
+
+				<div class="product-actions">
+					<div><span>Qty</span> <input type="text" /></div>
+					<div>
+						<button class="card-btn">
+							<ion-icon name="cart-outline"></ion-icon>
+							<span>Add To Card</span>
+						</button>
+					</div>
+					<div class="heart">
+						<ion-icon name="heart-outline"></ion-icon>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="product-details">
+			<div class="buttons">
+				<ul>
+					<li class="active details-nav">Details</li>
+					<li class="review-nav">Reviews 1</li>
+				</ul>
+			</div>
+			<div class="details">
+				<%= product.description %> 
+			</div>
+			<div class="review visibility">
+				<h2>Customer reviews</h2>
+				<div>
+					<div class="review-rating">
+						<span><b>Rating</b></span>
+						<ion-icon class="star" name="star"></ion-icon>
+						<ion-icon class="star" name="star"></ion-icon>
+						<ion-icon class="star" name="star"></ion-icon>
+					</div>
+					<div>
+						<div class="user-review">
+							Lorem ipsum dolor sit, amet consectetur adipisicing
+							elit. Cupiditate, doloribus dignissimos. Earum,
+							exercitationem at tenetur obcaecati minima
+							necessitatibus eveniet inventore sint iusto amet
+							illum ut molestiae eum itaque. Asperiores corrupti
+							similique iusto non explicabo, consectetur
+							recusandae qui dolores provident est eius id vitae
+							culpa minus dolor sequi dolorum blanditiis animi.
+						</div>
+						<div class="user-review-info">
+							<p><span>Review by</span> <b>John Doe</b></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="review-form">
+			<h1>Submit your review</h1>
+			<form>
+				<div>
+					<p>Your rating:</p>
+					<p>Rating here</p>
+				</div>
+				<div>
+					<p>Username:</p>
+					<div><input type="text" /></div>
+				</div>
+				<div>
+					<p>Description:</p>
+					<div><input type="text" /></div>
+				</div>
+				<div>
+					<p>Details:</p>
+					<div><textarea></textarea></div>
+				</div>
+				<div>
+					<div><button>Submit review</button></div>
+				</div>
+			</form>
+		</section>
+
+		<script>
+			const detailsNav = document.querySelector(".details-nav");
+			const reviewNav = document.querySelector(".review-nav");
+			const details = document.querySelector(".details");
+			const review = document.querySelector(".review");
+			const cardBtn = document.querySelector(".card-btn");
+
+			cardBtn.addEventListener("click", (e) => {
+				console.log(e);
+			});
+
+			detailsNav.addEventListener("click", (e) => {
+				console.log(e.target);
+				detailsNav.classList.add("active");
+				reviewNav.classList.remove("active");
+				details.classList.remove("visibility");
+				review.classList.add("visibility");
+			});
+
+			reviewNav.addEventListener("click", (e) => {
+				reviewNav.classList.add("active");
+				detailsNav.classList.remove("active");
+				details.classList.add("visibility");
+				review.classList.remove("visibility");
+			});
+		</script>
+	</body>
+</html>

@@ -3,6 +3,7 @@ import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import {
 	addProduct,
+	findProdcutById,
 	getFeaturedProducts,
 	getNewArrivalProducts,
 } from "../controllers/products/products.js";
@@ -64,6 +65,16 @@ router.post("/checkout", (req, res) => {
 			})
 		)
 		.then((charge) => res.render("success"));
+});
+
+router.get("/:id", async (req, res) => {
+	const response = await findProdcutById(req.params.id);
+	if (response.error) {
+		return res.send(response.error);
+	} else {
+		console.log(response.message);
+		res.render("product-details", { product: response.message });
+	}
 });
 
 export default router;

@@ -14,6 +14,15 @@ export const addProduct = async (data) => {
 	}
 };
 
+export const findProdcutById = async (productId) => {
+	try {
+		const product = await Product.findById(productId);
+		return { message: product };
+	} catch (err) {
+		return { error: err.message };
+	}
+};
+
 export const removeProduct = async (productId) => {
 	try {
 		await Product.findByIdAndDelete(productId);

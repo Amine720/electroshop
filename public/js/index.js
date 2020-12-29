@@ -5,7 +5,7 @@ const newCategories = document.querySelector(".new .categories");
 
 const getDetails = (id) => {
 	console.log(id);
-	window.location.assign(`/details/${id}`);
+	window.location.assign(`/api/products/${id}`);
 };
 
 const featuredObserver = new IntersectionObserver((entries) => {
@@ -70,7 +70,3 @@ const newObserver = new IntersectionObserver((entries) => {
 });
 
 newObserver.observe(newSection);
-
-// featureCategories.addEventListener("click", (e) => {
-// 	console.log(e.target);
-// });

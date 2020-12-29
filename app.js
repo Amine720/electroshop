@@ -7,14 +7,25 @@ import users from "./routes/users.js";
 import products from "./routes/products.js";
 import dotenv from "dotenv";
 import addProducts from "./seeders/product-seeder.js";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
+app.use(cors());
 const __dirname = path.resolve();
-app.use(helmet());
+app.use(
+	helmet({
+		contentSecurityPolicy: false,
+	})
+);
 app.use(morgan("common"));
 app.use(express.static(`${__dirname}/public`));
 app.use("/public/uploads/", express.static(`${__dirname}/public/uploads/`));
+app.use(
+	"/api/products/public/uploads/",
+	express.static(`${__dirname}/public/uploads/`)
+);
+app.use("/api/products/", express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ extended: false }));
 app.set("view engine", "ejs");
