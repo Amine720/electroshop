@@ -8,6 +8,7 @@ import {
 	getNewArrivalProducts,
 } from "../controllers/products/products.js";
 import stripe from "stripe";
+import { addReview } from "../controllers/reviews/reviews.js";
 
 const mStripe = stripe(process.env.stripe_secret_key);
 
@@ -48,7 +49,23 @@ router.get("/new", async (req, res) => {
 	res.status(200).json({ message: response.message });
 });
 
+// add product review
+router.post("/review/:id", async (req, res) => {
+	if (!req.session.userId) {
+		return res.render("login");
+	}
+	const response = await addReview(req.params.id, req.body);
+	if (response.error) {
+		return res.send(response.error);
+	}
+	res.status(200).json({ message: response.message });
+});
+
 router.post("/checkout", (req, res) => {
+	if (!req.session.id) {
+		return res.redirect("/login");
+	}
+
 	const { amount, stripeEmail, stripeToken, description } = req.body;
 
 	mStripe.customers

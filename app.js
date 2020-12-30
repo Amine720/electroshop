@@ -8,10 +8,21 @@ import products from "./routes/products.js";
 import dotenv from "dotenv";
 import addProducts from "./seeders/product-seeder.js";
 import cors from "cors";
+import session from "express-session";
 dotenv.config();
 
 const app = express();
 app.use(cors());
+app.use(
+	session({
+		secret: "mysecretkey",
+		resave: false,
+		saveUninitialized: true,
+		cookie: {
+			maxAge: 2000 * 60,
+		},
+	})
+);
 const __dirname = path.resolve();
 app.use(
 	helmet({

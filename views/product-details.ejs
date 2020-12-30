@@ -1,23 +1,5 @@
 <%- include ('partials/nav') %> 
-	<body>
-		<header>
-			<div>
-				<img src="assets/logo.png" />
-			</div>
-			<div class="header__account_cart">
-				<div class="account">
-					<div><ion-icon name="person-outline"></ion-icon></div>
-					<p>account</p>
-				</div>
-				<div class="card">
-					<div>
-						<div class="card-count">0</div>
-						<ion-icon name="cart-outline"></ion-icon>
-					</div>
-					<p>Card</p>
-				</div>
-			</div>
-		</header>
+	
 
 		<section class="product-info">
 			<div><img src="<%= product.photos[0] %>" /></div>
@@ -43,7 +25,7 @@
 				<p class="description"><%= product.title %></p>
 
 				<div class="product-actions">
-					<div><span>Qty</span> <input type="text" /></div>
+					<div><span>Qty</span> <input type="number" min="1" name="quantity" /></div>
 					<div>
 						<button class="card-btn">
 							<ion-icon name="cart-outline"></ion-icon>
@@ -61,7 +43,7 @@
 			<div class="buttons">
 				<ul>
 					<li class="active details-nav">Details</li>
-					<li class="review-nav">Reviews 1</li>
+					<li class="review-nav">Reviews <%= product.reviews.length %> </li>
 				</ul>
 			</div>
 			<div class="details">
@@ -97,25 +79,21 @@
 
 		<section class="review-form">
 			<h1>Submit your review</h1>
-			<form>
+			<form action="/api/products/review/<%= product._id %> " method="POST">
 				<div>
 					<p>Your rating:</p>
-					<p>Rating here</p>
+					<p><input type="number" name="rating" min="1" max="5" /></p>
 				</div>
 				<div>
 					<p>Username:</p>
-					<div><input type="text" /></div>
-				</div>
-				<div>
-					<p>Description:</p>
-					<div><input type="text" /></div>
+					<div><input type="text" name="username" /></div>
 				</div>
 				<div>
 					<p>Details:</p>
-					<div><textarea></textarea></div>
+					<div><textarea name="feedback"></textarea></div>
 				</div>
 				<div>
-					<div><button>Submit review</button></div>
+					<div><button class="review" type="submit">Submit review</button></div>
 				</div>
 			</form>
 		</section>
@@ -126,6 +104,7 @@
 			const details = document.querySelector(".details");
 			const review = document.querySelector(".review");
 			const cardBtn = document.querySelector(".card-btn");
+			const reviewbtn = document.querySelector(".review")
 
 			cardBtn.addEventListener("click", (e) => {
 				console.log(e);
@@ -145,6 +124,9 @@
 				details.classList.add("visibility");
 				review.classList.remove("visibility");
 			});
+
+			// add review handler
+			
 		</script>
 	</body>
 </html>

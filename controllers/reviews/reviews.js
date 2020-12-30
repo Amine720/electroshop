@@ -1,5 +1,5 @@
 import Product from "../../models/Product.js";
-import Review from "../../models/Card.js";
+import Review from "../../models/Review.js";
 
 // Add review to a product
 export const addReview = async (productId, reviewInfo) => {
@@ -11,9 +11,10 @@ export const addReview = async (productId, reviewInfo) => {
 			rating,
 			feedback,
 		});
-		review = await review.save();
-		product.reviews.push(review._id);
+		let addedReview = await review.save();
+		product.reviews.push(addedReview._id);
 		await product.save();
+		return { message: "Review has been added" };
 	} catch (err) {
 		return { error: err.message };
 	}
