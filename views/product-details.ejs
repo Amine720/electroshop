@@ -51,29 +51,24 @@
 			</div>
 			<div class="review visibility">
 				<h2>Customer reviews</h2>
-				<div>
-					<div class="review-rating">
-						<span><b>Rating</b></span>
-						<ion-icon class="star" name="star"></ion-icon>
-						<ion-icon class="star" name="star"></ion-icon>
-						<ion-icon class="star" name="star"></ion-icon>
-					</div>
-					<div>
-						<div class="user-review">
-							Lorem ipsum dolor sit, amet consectetur adipisicing
-							elit. Cupiditate, doloribus dignissimos. Earum,
-							exercitationem at tenetur obcaecati minima
-							necessitatibus eveniet inventore sint iusto amet
-							illum ut molestiae eum itaque. Asperiores corrupti
-							similique iusto non explicabo, consectetur
-							recusandae qui dolores provident est eius id vitae
-							culpa minus dolor sequi dolorum blanditiis animi.
+				<% product.reviews.forEach(review => { %>
+					<div style="border: 1px solid black; padding: 8px 16px; margin-top: 12px;">
+						<div class="review-rating">
+							<span><b>Rating</b></span>
+							<% for( let index = 0; index < review.rating; index++ ) { %>
+								<ion-icon class="star" name="star"></ion-icon>
+							<% } %>
 						</div>
-						<div class="user-review-info">
-							<p><span>Review by</span> <b>John Doe</b></p>
+						<div>
+							<div class="user-review">
+								<%= review.feedback %> 
+							</div>
+							<div class="user-review-info">
+								<p><span>Review by</span> <b><%= review.username %> </b></p>
+							</div>
 						</div>
 					</div>
-				</div>
+				<% }) %>
 			</div>
 		</section>
 

@@ -16,7 +16,7 @@ export const addProduct = async (data) => {
 
 export const findProdcutById = async (productId) => {
 	try {
-		const product = await Product.findById(productId);
+		const product = await Product.findById(productId).populate("reviews");
 		return { message: product };
 	} catch (err) {
 		return { error: err.message };
