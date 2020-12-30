@@ -33,10 +33,12 @@ const productSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
-	reviews: {
-		type: Array,
-		default: [],
-	},
+	reviews: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "review",
+		},
+	],
 });
 
 const Product = mongoose.model("product", productSchema);

@@ -65,7 +65,9 @@ export const searchProductByCategory = async (categoryName) => {
 
 export const getFeaturedProducts = async () => {
 	try {
-		const products = await Product.find({ featured: true });
+		const products = await Product.find({ featured: true }).populate(
+			"reviews"
+		);
 		return { message: products };
 	} catch (err) {
 		return { error: err.message };

@@ -7,6 +7,7 @@ export const addReview = async (productId, reviewInfo) => {
 		const { username, rating, feedback } = reviewInfo;
 		const product = await Product.findById(productId);
 		const review = new Review({
+			product: productId,
 			username,
 			rating,
 			feedback,
