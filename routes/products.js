@@ -9,6 +9,10 @@ import {
 } from "../controllers/products/products.js";
 import stripe from "stripe";
 import { addReview } from "../controllers/reviews/reviews.js";
+import { addToCart } from "../controllers/card/card.js";
+import Card from "../models/Card.js";
+import User from "../models/User.js";
+import Product from "../models/Product.js";
 
 const mStripe = stripe(process.env.stripe_secret_key);
 
@@ -61,6 +65,19 @@ router.post("/review/:id", async (req, res) => {
 	res.status(200).json({ message: response.message });
 });
 
+// add product to cart
+router.post("/product/:productId/cart/:cartId", async (req, res) => {
+	const { productId, cartId } = req.params;
+	const response = await addToCart(productId, cartId);
+	if (response.failed) {
+		return res.send(response.failed);
+	}
+	if (response.error) {
+		return res.send(response.error);
+	}
+	res.status(200).json({ message: response.message });
+});
+
 router.post("/checkout", (req, res) => {
 	if (!req.session.id) {
 		return res.redirect("/login");
@@ -90,7 +107,29 @@ router.get("/:id", async (req, res) => {
 		return res.send(response.error);
 	} else {
 		console.log(response.message);
-		res.render("product-details", { product: response.message });
+		if (req.session.userId) {
+			res.render("product-details", {
+				product: response.message,
+				user: req.session.username,
+				cart: req.session.cart,
+			});
+		} else {
+			res.render("product-details", {
+				product: response.message,
+				user: "guest",
+				cart: [],
+			});
+		}
+	}
+});
+
+router.get("/cart/:id", async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id);
+		const products = await Product.find({ _id: { $in: user.card } });
+		res.json({ user, products });
+	} catch (err) {
+		return res.json({ err: err });
 	}
 });
 

@@ -28,6 +28,11 @@ header {
 	margin-left: 30px;
 }
 
+.header__account_cart .account,
+.header__account_cart .card {
+	cursor: pointer;
+}
+
 .account,
 .card {
 	display: flex;
@@ -293,4 +298,9 @@ form button {
 
 form button:hover {
 	opacity: 0.7;
+}
+
+.card-btn:hover {
+	opacity: 0.8;
+	cursor: pointer;
 }

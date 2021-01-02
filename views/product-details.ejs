@@ -1,4 +1,4 @@
-<%- include ('partials/nav') %> 
+<%- include ('partials/nav', {user, cart}) %> 
 	
 
 		<section class="product-info">
@@ -51,24 +51,28 @@
 			</div>
 			<div class="review visibility">
 				<h2>Customer reviews</h2>
-				<% product.reviews.forEach(review => { %>
-					<div style="border: 1px solid black; padding: 8px 16px; margin-top: 12px;">
-						<div class="review-rating">
-							<span><b>Rating</b></span>
-							<% for( let index = 0; index < review.rating; index++ ) { %>
-								<ion-icon class="star" name="star"></ion-icon>
-							<% } %>
-						</div>
-						<div>
-							<div class="user-review">
-								<%= review.feedback %> 
+				<% if (product.reviews.length > 0) { %>
+					<% product.reviews.forEach(review => { %>
+						<div style="border: 1px solid black; padding: 8px 16px; margin-top: 12px;">
+							<div class="review-rating">
+								<span><b>Rating</b></span>
+								<% for( let index = 0; index < review.rating; index++ ) { %>
+									<ion-icon class="star" name="star"></ion-icon>
+								<% } %>
 							</div>
-							<div class="user-review-info">
-								<p><span>Review by</span> <b><%= review.username %> </b></p>
+							<div>
+								<div class="user-review">
+									<%= review.feedback %> 
+								</div>
+								<div class="user-review-info">
+									<p><span>Review by</span> <b><%= review.username %> </b></p>
+								</div>
 							</div>
 						</div>
-					</div>
-				<% }) %>
+					<% }) %>
+				<% } else {%>
+				 <p style="text-align: center; margin-top: 12px; font-size: 20px;">No reviews for this product</p>
+				<% } %>
 			</div>
 		</section>
 
@@ -81,7 +85,8 @@
 				</div>
 				<div>
 					<p>Username:</p>
-					<div><input type="text" name="username" /></div>
+					<input type="hidden" name="username" value="<%= user %>" />
+					<div><input type="text" value="<%= user %>" disabled /></div>
 				</div>
 				<div>
 					<p>Details:</p>
@@ -120,7 +125,6 @@
 				review.classList.remove("visibility");
 			});
 
-			// add review handler
 			
 		</script>
 	</body>

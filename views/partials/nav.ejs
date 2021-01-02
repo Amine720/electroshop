@@ -17,23 +17,28 @@
 		></script>
 		<link rel="stylesheet" href="/css/styles.css" />
 		<title>Electroshop</title>
+		<link rel="shortcut icon" type="image/png" href="/assets/logo.png" />
 	</head>
 	<body>
 		<header>
 			<div>
-				<img src="assets/logo.png" />
+				<a href="/"><img src="assets/logo.png" /></a>
 			</div>
 			<div class="header__account_cart">
-				<div class="account">
+				<div class="account" onclick="window.location.assign('/login')">
 					<div><ion-icon name="person-outline"></ion-icon></div>
-					<p>account</p>
+					<p>account - <%= user %></p>
 				</div>
 				<div class="card">
 					<div>
-						<div class="card-count">0</div>
-						<ion-icon name="cart-outline"></ion-icon>
+						<a href="/cart">
+							<div class="card-count"><%= cart.length %></div>
+							<ion-icon name="cart-outline"></ion-icon
+						></a>
 					</div>
 					<p>Card</p>
 				</div>
 			</div>
 		</header>
+	</body>
+</html>

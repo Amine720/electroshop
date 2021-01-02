@@ -3,6 +3,7 @@ import User from "../../models/User.js";
 import Card from "../../models/Card.js";
 import log from "../../logs/logs.js";
 import sendmail from "../../utils/mail.js";
+import Product from "../../models/Product.js";
 
 export const login = async (data) => {
 	try {
@@ -15,15 +16,18 @@ export const login = async (data) => {
 		if (!isAuth) {
 			return { error: "wrong credentials", status: 400 };
 		} else {
+			const cart = await Product.find({ _id: { $in: user.card } });
 			return {
+				userId: user._id,
 				username: user.username,
 				email: user.email,
-				card: user.card,
+				cart,
 			};
 		}
 	} catch (err) {
 		log(err.message);
 		console.log(err.message);
+		return { error: err.message };
 	}
 };
 

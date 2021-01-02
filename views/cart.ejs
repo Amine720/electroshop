@@ -1,0 +1,16 @@
+<%- include ('partials/nav', {user, cart}) %> 
+
+		<div>
+            <% cart.forEach(el => { %>
+               <div>
+                    <p><%= el.title %> </p>
+                    <p><%= el.price %> DH </p>
+                    <img src="<%= el.photos[0] %> "  />
+                    <a href="/api/products/<%= el._id  %> ">View Details</a>
+               </div>
+               <hr />
+            <% }) %>
+        </div>
+		
+	</body>
+</html>

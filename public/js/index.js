@@ -21,7 +21,8 @@ const featuredObserver = new IntersectionObserver((entries) => {
 						img.onclick = () => {
 							getDetails(product._id);
 						};
-						let p = document.createTextNode(product.category);
+						let p = document.createElement("p");
+						p.textContent = product.category;
 						let span = document.createTextNode(
 							`${product.quantity} Devices`
 						);
@@ -53,7 +54,8 @@ const newObserver = new IntersectionObserver((entries) => {
 						img.onclick = () => {
 							getDetails(product._id);
 						};
-						let p = document.createTextNode(product.category);
+						let p = document.createElement("p");
+						p.textContent = product.category;
 						let span = document.createTextNode(
 							`${product.quantity} Devices`
 						);

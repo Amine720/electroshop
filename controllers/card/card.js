@@ -19,7 +19,7 @@ export const addToCart = async (productId, cardId) => {
 			card.products.push(productId);
 			card.totalQte += 1;
 			card.totalPrice += product.price;
-			product.quantity = -1;
+			product.quantity -= 1;
 
 			await card.save();
 			await product.save();

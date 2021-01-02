@@ -19,7 +19,7 @@ app.use(
 		resave: false,
 		saveUninitialized: true,
 		cookie: {
-			maxAge: 2000 * 60,
+			maxAge: 1000 * 60 * 60 * 5,
 		},
 	})
 );
@@ -45,24 +45,60 @@ app.set("view engine", "ejs");
 connectDB();
 
 app.get("/", (req, res) => {
-	res.render("home");
+	if (req.session.userId) {
+		res.render("home", {
+			user: req.session.username,
+			cart: req.session.cart,
+		});
+	} else {
+		res.render("home", { user: "guest", cart: [] });
+	}
 });
 
-app.get("/seed", async (req, res) => {
-	await addProducts();
-	res.send("added-successfully");
-});
+// app.get("/seed", async (req, res) => {
+// 	await addProducts();
+// 	res.send("added-successfully");
+// });
 
 app.get("/login", (req, res) => {
+	console.log(req.session);
+	if (req.session.userId) {
+		return res.redirect("/");
+	}
+	res.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
 	res.render("login");
 });
 
 app.get("/register", (req, res) => {
+	console.log(req.session);
+	if (req.session.userId) {
+		return res.send("already logged in");
+	}
 	res.render("register");
 });
 
+// app.get("/dashboard", (req, res) => {
+// 	console.log(req.session);
+// 	if (!req.session.userId) {
+// 		return res.redirect("/login");
+// 	}
+// 	res.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
+// 	res.send("dashboard");
+// });
+
 app.get("/add-product", (req, res) => {
 	res.render("add-product");
+});
+
+app.get("/cart", (req, res) => {
+	if (req.session.userId) {
+		res.render("cart", {
+			user: req.session.username,
+			cart: req.session.cart,
+		});
+	} else {
+		res.render("cart", { user: "guest", cart: [] });
+	}
 });
 
 app.use("/api/users", users);

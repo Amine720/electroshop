@@ -14,7 +14,15 @@ router.post("/login", async (req, res) => {
 	if (response.error) {
 		return res.status(response.status).json({ message: response.error });
 	}
-	return res.status(200).json({ user: response });
+	if (response) {
+		req.session.userId = response.userId;
+		req.session.cart = response.cart;
+		req.session.username = response.username;
+		// return res.status(200).json({ user: response });
+
+		res.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
+		res.redirect("/");
+	}
 });
 
 router.post("/register", async (req, res) => {
