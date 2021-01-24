@@ -19,19 +19,21 @@
 				</div>
 				<div class="review-count stock">
 					<ion-icon class="checkmark" name="checkmark"></ion-icon>
-					<p>In stock</p>
+					<p><%= product.quantity %> items in stock</p>
 				</div>
 				<p class="product-id">SKU P-<%= product._id %></p>
 				<p class="description"><%= product.title %></p>
 
 				<div class="product-actions">
-					<div><span>Qty</span> <input type="number" min="1" name="quantity" /></div>
-					<div>
-						<button class="card-btn">
-							<ion-icon name="cart-outline"></ion-icon>
-							<span>Add To Card</span>
-						</button>
-					</div>
+					<form action="<%= `/api/products/product/${product._id}` %>" method="post">
+						<div><span>Qty</span> <input type="number" min="1" name="quantity" /></div>
+						<div>
+							<button class="card-btn" type="submit">
+								<ion-icon name="cart-outline"></ion-icon>
+								<span>Add To Card</span>
+							</button>
+						</div>
+					</form>
 					<div class="heart">
 						<ion-icon name="heart-outline"></ion-icon>
 					</div>
@@ -106,9 +108,9 @@
 			const cardBtn = document.querySelector(".card-btn");
 			const reviewbtn = document.querySelector(".review")
 
-			cardBtn.addEventListener("click", (e) => {
-				console.log(e);
-			});
+			// cardBtn.addEventListener("click", (e) => {
+			// 	console.log(e);
+			// });
 
 			detailsNav.addEventListener("click", (e) => {
 				console.log(e.target);

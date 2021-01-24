@@ -1,5 +1,6 @@
 import Card from "../../models/Card.js";
 import Product from "../../models/Product.js";
+import User from "../../models/User.js";
 
 export const cardNumberOfItems = async () => {
 	try {
@@ -11,18 +12,35 @@ export const cardNumberOfItems = async () => {
 };
 
 // Add product to card
-export const addToCart = async (productId, cardId) => {
+export const addToCart = async (productId, quantity, userId) => {
 	try {
-		let card = await Card.findById(cardId);
+		let user = await User.findById(userId);
 		let product = await Product.findById(productId);
-		if (card && product.quantity > 1) {
-			card.products.push(productId);
-			card.totalQte += 1;
-			card.totalPrice += product.price;
-			product.quantity -= 1;
 
-			await card.save();
-			await product.save();
+		if (product.quantity > quantity) {
+			let item = await User.findOne({ "cart.productId": productId });
+			if (item) {
+				await User.findOneAndUpdate(
+					{ "cart.productId": productId },
+					{
+						$inc: {
+							"cart.$.quantity": quantity,
+						},
+					}
+				);
+
+				product.quantity -= quantity;
+				await product.save();
+			} else {
+				user.cart.push({
+					productId,
+					quantity,
+					price: product.price,
+				});
+				product.quantity -= quantity;
+				await user.save();
+				await product.save();
+			}
 
 			return { message: "Item added to the card successfully" };
 		} else {

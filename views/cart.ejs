@@ -1,6 +1,6 @@
 <%- include ('partials/nav', {user, cart}) %> 
 
-		<div>
+		<!-- <div>
             <% cart.forEach(el => { %>
                <div>
                     <p><%= el.title %> </p>
@@ -10,7 +10,47 @@
                </div>
                <hr />
             <% }) %>
-        </div>
+        </div> -->
+
+        <div>
+         <% cart.forEach(product => { %>
+            <section class="product-info">
+               <div><img src="<%= product.photos[0] %>" /></div>
+               <div>
+                  <h1><%= product.title %></h1>
+                  <p class="price">&dollar;<%= product.price %></p>
+                  <div class="review-count">
+                     <div>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        <ion-icon class="star" name="star"></ion-icon>
+                     </div>
+                  </div>
+                  <div class="review-count stock">
+                     <ion-icon class="checkmark" name="checkmark"></ion-icon>
+                     <p>In stock</p>
+                  </div>
+                  <p class="product-id">SKU P-<%= product._id %></p>
+                  <p class="description"><%= product.title %></p>
+      
+                  <div class="product-actions">
+                     <div>
+                        <button class="card-btn">Remove from cart</button>
+                     </div>
+                     <div>
+                        <button class="card-btn">
+                           Checkout
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            </section>
+         <% }) %>
+     </div>
+
+        
 		
 	</body>
 </html>

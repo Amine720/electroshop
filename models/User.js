@@ -29,12 +29,10 @@ const userSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
-	card: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "product",
-		},
-	],
+	cart: {
+		type: Array,
+		default: [],
+	},
 });
 
 const User = mongoose.model("user", userSchema);

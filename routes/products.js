@@ -66,9 +66,12 @@ router.post("/review/:id", async (req, res) => {
 });
 
 // add product to cart
-router.post("/product/:productId/cart/:cartId", async (req, res) => {
-	const { productId, cartId } = req.params;
-	const response = await addToCart(productId, cartId);
+router.post("/product/:productId", async (req, res) => {
+	const { productId } = req.params;
+	const { quantity } = req.body;
+	const userId = req.session.userId;
+
+	const response = await addToCart(productId, +quantity, userId);
 	if (response.failed) {
 		return res.send(response.failed);
 	}
@@ -76,6 +79,7 @@ router.post("/product/:productId/cart/:cartId", async (req, res) => {
 		return res.send(response.error);
 	}
 	res.status(200).json({ message: response.message });
+	// res.redirect("/cart");
 });
 
 router.post("/checkout", (req, res) => {
