@@ -9,6 +9,9 @@ import dotenv from "dotenv";
 import addProducts from "./seeders/product-seeder.js";
 import cors from "cors";
 import session from "express-session";
+import Product from "./models/Product.js";
+import User from "./models/User.js";
+import { cartProducts } from "./controllers/card/card.js";
 dotenv.config();
 
 const app = express();
@@ -32,6 +35,7 @@ app.use(
 app.use(morgan("common"));
 app.use(express.static(`${__dirname}/public`));
 app.use("/public/uploads/", express.static(`${__dirname}/public/uploads/`));
+app.use("/public/assets", express.static(`${__dirname}/public/assets/`));
 app.use(
 	"/api/products/public/uploads/",
 	express.static(`${__dirname}/public/uploads/`)
@@ -44,14 +48,15 @@ app.set("view engine", "ejs");
 // connect to db
 connectDB();
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
 	if (req.session.userId) {
+		const cart = await cartProducts(req, res);
 		res.render("home", {
 			user: req.session.username,
-			cart: req.session.cart,
+			cart: cart.products.length,
 		});
 	} else {
-		res.render("home", { user: "guest", cart: [] });
+		res.render("home", { user: "guest", cart: 0 });
 	}
 });
 
@@ -61,7 +66,6 @@ app.get("/", (req, res) => {
 // });
 
 app.get("/login", (req, res) => {
-	console.log(req.session);
 	if (req.session.userId) {
 		return res.redirect("/");
 	}
@@ -70,7 +74,6 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-	console.log(req.session);
 	if (req.session.userId) {
 		return res.send("already logged in");
 	}
@@ -90,14 +93,22 @@ app.get("/add-product", (req, res) => {
 	res.render("add-product");
 });
 
-app.get("/cart", (req, res) => {
+app.get("/cart", async (req, res) => {
 	if (req.session.userId) {
+		const cart = await cartProducts(req, res);
 		res.render("cart", {
 			user: req.session.username,
-			cart: req.session.cart,
+			products: cart.products,
+			total: cart.totalPrice,
+			cart: cart.products.length,
 		});
 	} else {
-		res.render("cart", { user: "guest", cart: [] });
+		res.render("cart", {
+			user: "guest",
+			cart: [],
+			total: 0,
+			itemsNumber: 0,
+		});
 	}
 });
 

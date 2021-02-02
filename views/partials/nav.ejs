@@ -18,6 +18,7 @@
 		<link rel="stylesheet" href="/css/styles.css" />
 		<title>Electroshop</title>
 		<link rel="shortcut icon" type="image/png" href="/assets/logo.png" />
+		<script src="https://js.stripe.com/v3/"></script>
 	</head>
 	<body>
 		<header>
@@ -32,7 +33,7 @@
 				<div class="card">
 					<div>
 						<a href="/cart">
-							<div class="card-count"><%= cart.length %></div>
+							<div class="card-count"><%= cart %></div>
 							<ion-icon name="cart-outline"></ion-icon
 						></a>
 					</div>

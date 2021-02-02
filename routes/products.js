@@ -14,7 +14,9 @@ import Card from "../models/Card.js";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
 
-const mStripe = stripe(process.env.stripe_secret_key);
+const mStripe = stripe(
+	"sk_test_51HgXS9AM0fYeg1Kd3UInSAKEkdySDyetIdEEpZaRjm14zD2fjX1YXpLInraFXEjkRo8xtAU8JKNdE4gM0gpRCQya00n6UHYx5j"
+);
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -82,12 +84,19 @@ router.post("/product/:productId", async (req, res) => {
 	// res.redirect("/cart");
 });
 
-router.post("/checkout", (req, res) => {
-	if (!req.session.id) {
+router.post("/checkout", async (req, res) => {
+	if (!req.session.userId) {
 		return res.redirect("/login");
 	}
 
-	const { amount, stripeEmail, stripeToken, description } = req.body;
+	const user = await User.findById(req.session.userId);
+	let price = 0;
+	user.cart.forEach((el) => {
+		let pricePerItem = el.quantity * el.price;
+		price += pricePerItem;
+	});
+
+	const { stripeEmail, stripeToken } = req.body;
 
 	mStripe.customers
 		.create({
@@ -95,14 +104,18 @@ router.post("/checkout", (req, res) => {
 			source: stripeToken,
 		})
 		.then((customer) =>
-			stripe.charges.create({
-				amount,
-				description: description,
+			mStripe.charges.create({
+				amount: Math.ceil(price * 100),
+				description: "Buy items from electroshop",
 				currency: "usd",
 				customer: customer.id,
 			})
 		)
-		.then((charge) => res.render("success"));
+		.then((charge) => {
+			user.cart = [];
+			return user.save();
+		})
+		.then(() => res.send("success"));
 });
 
 router.get("/:id", async (req, res) => {
@@ -127,14 +140,14 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
-router.get("/cart/:id", async (req, res) => {
-	try {
-		const user = await User.findById(req.params.id);
-		const products = await Product.find({ _id: { $in: user.card } });
-		res.json({ user, products });
-	} catch (err) {
-		return res.json({ err: err });
-	}
-});
+// router.get("/cart/:id", async (req, res) => {
+// 	try {
+// 		const user = await User.findById(req.params.id);
+// 		const products = await Product.find({ _id: { $in: user.card } });
+// 		res.json({ user, products });
+// 	} catch (err) {
+// 		return res.json({ err: err });
+// 	}
+// });
 
 export default router;

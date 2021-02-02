@@ -16,12 +16,12 @@ export const login = async (data) => {
 		if (!isAuth) {
 			return { error: "wrong credentials", status: 400 };
 		} else {
-			const cart = await Product.find({ _id: { $in: user.card } });
+			// const cart = await Product.find({ _id: { $in: user.card } });
 			return {
 				userId: user._id,
 				username: user.username,
 				email: user.email,
-				cart,
+				cart: user.cart.length,
 			};
 		}
 	} catch (err) {

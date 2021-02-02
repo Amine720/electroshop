@@ -1,19 +1,7 @@
 <%- include ('partials/nav', {user, cart}) %> 
 
-		<!-- <div>
-            <% cart.forEach(el => { %>
-               <div>
-                    <p><%= el.title %> </p>
-                    <p><%= el.price %> DH </p>
-                    <img src="<%= el.photos[0] %> "  />
-                    <a href="/api/products/<%= el._id  %> ">View Details</a>
-               </div>
-               <hr />
-            <% }) %>
-        </div> -->
-
         <div>
-         <% cart.forEach(product => { %>
+         <% products.forEach(product => { %>
             <section class="product-info">
                <div><img src="<%= product.photos[0] %>" /></div>
                <div>
@@ -39,15 +27,28 @@
                      <div>
                         <button class="card-btn">Remove from cart</button>
                      </div>
-                     <div>
-                        <button class="card-btn">
-                           Checkout
-                        </button>
-                     </div>
                   </div>
                </div>
             </section>
          <% }) %>
+         <h1>Total Price: <%= total %> </h1>
+
+         <form action="/api/products/checkout" method="POST">
+            <script
+              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="pk_test_51HgXS9AM0fYeg1Kdd2cM4tI74MmHu7ZBHxiQVqOgziZfDYnQGkFbzL9oH4Z5IUYv8dh60BujZWa54tGAh902lzRR00MmVwHQVn"
+              data-amount="<%= total * 100 %>"
+              data-name="Items"
+              data-description="Items from electroshop"
+              data-image="../public/assets/logo.png"
+              data-locale="auto">
+            </script>
+            <script>
+              // Hide default stripe button
+              document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
+            </script>
+            <button type="submit" class="btn btn-outline-dark text-white btn-lg">Checkout</button>
+          </form>
      </div>
 
         

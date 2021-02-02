@@ -11,6 +11,23 @@ export const cardNumberOfItems = async () => {
 	}
 };
 
+// get cart's products
+export const cartProducts = async (req, res) => {
+	try {
+		let user = await User.findById(req.session.userId);
+		let producIds = user.cart.map((el) => el.productId);
+		let products = await Product.find({ _id: { $in: producIds } });
+		let totalPrice = 0;
+		user.cart.forEach((el) => {
+			let totalPriceForOnePoduct = el.price * el.quantity;
+			totalPrice += totalPriceForOnePoduct;
+		});
+		return { products, totalPrice };
+	} catch (error) {
+		return { error };
+	}
+};
+
 // Add product to card
 export const addToCart = async (productId, quantity, userId) => {
 	try {
