@@ -88,6 +88,17 @@ app.get("/register", async (req, res) => {
 	res.render("register", { user: "guest", cart: 0 });
 });
 
+app.post("/logout", (req, res) => {
+	if (req.session.userId) {
+		req.session.destroy((err) => {
+			if (err) {
+				return res.json("Error occured");
+			}
+		});
+	}
+	res.redirect("/");
+});
+
 // app.get("/dashboard", (req, res) => {
 // 	console.log(req.session);
 // 	if (!req.session.userId) {

@@ -39,5 +39,14 @@
 					</div>
 					<p>Card</p>
 				</div>
+				<div>
+					<% if (user !== "guest") { %>
+					<form method="POST" action="/logout">
+						<button type="submit">Logout</button>
+					</form>
+					<% } %>
+				</div>
 			</div>
 		</header>
+	</body>
+</html>
