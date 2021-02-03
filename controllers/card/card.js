@@ -69,16 +69,23 @@ export const addToCart = async (productId, quantity, userId) => {
 };
 
 // Remove an item from card
-export const removeFromCard = async (productId, cardId) => {
+export const removeFromCard = async (productId, userId) => {
 	try {
-		let card = await Card.findById(cardId);
-		if (card.products.includes(productId)) {
-			let newCard = card.products.filter(
-				(product) => product != productId
-			);
-			card = newCard;
-		}
-		await card.save();
+		let user = await User.findById(userId);
+		let quantity = 0;
+		user.cart.forEach((el) => {
+			if (el.productId == productId) {
+				quantity = el.quantity;
+			}
+		});
+		await User.update(
+			{ _id: userId },
+			{ $pull: { cart: { productId: productId } } }
+		);
+		await Product.update(
+			{ _id: productId },
+			{ $inc: { quantity: quantity } }
+		);
 		return { message: "Item has been removed from the cards" };
 	} catch (err) {
 		return { error: err.message };

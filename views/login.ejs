@@ -1,17 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Electroshop</title>
-		<link rel="shortcut icon" type="image/png" href="/assets/logo.png" />
-	</head>
-	<body>
-		<form method="POST" action="/api/users/login">
-			<input type="text" name="email" placeholder="Email..." />
-			<input type="password" name="password" placeholder="password..." />
-			<button type="submit">Login</button>
-		</form>
-		<p>Don't have an account? Register <a href="/register">here</a></p>
-	</body>
+<%- include ('partials/nav', {user, cart}) %> 
+<div class="auth-form-container">
+	<form method="POST" action="/api/users/login" class="auth-form">
+		<div class="field">
+			<label for="email">Email</label>
+			<input type="text" name="email" id="email" placeholder="Email..." />
+		</div>
+		<div class="field">
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" placeholder="Password..." />
+		</div>
+		<div class="field">
+			<button type="submit" class="auth-btn">Login</button>
+		</div>
+	</form>
+	<p>Don't have an account? Register <a href="/register">here</a></p>
+</div>
+</body>
 </html>

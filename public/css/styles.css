@@ -304,3 +304,37 @@ form button:hover {
 	opacity: 0.8;
 	cursor: pointer;
 }
+
+.auth-form-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.auth-form-container .auth-form {
+	width: 60%;
+}
+
+.auth-form-container .auth-form .field {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.auth-form-container .auth-form label {
+	margin-bottom: 12px;
+}
+
+.auth-form-container .auth-form .auth-btn {
+	width: 30%;
+	align-self: center;
+}
+
+.auth-form-container a {
+	text-decoration: none;
+	color: #2f83fa;
+	font-weight: 800;
+}

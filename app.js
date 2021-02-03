@@ -65,19 +65,21 @@ app.get("/", async (req, res) => {
 // 	res.send("added-successfully");
 // });
 
-app.get("/login", (req, res) => {
+app.get("/login", async (req, res) => {
 	if (req.session.userId) {
 		return res.redirect("/");
 	}
 	res.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
-	res.render("login");
+	const cart = await cartProducts(req, res);
+	res.render("login", { user: "guest", cart: 0 });
 });
 
-app.get("/register", (req, res) => {
+app.get("/register", async (req, res) => {
 	if (req.session.userId) {
-		return res.send("already logged in");
+		return res.redirect("/");
 	}
-	res.render("register");
+	const cart = await cartProducts(req, res);
+	res.render("register", { user: "guest", cart: 0 });
 });
 
 // app.get("/dashboard", (req, res) => {

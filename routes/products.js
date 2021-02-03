@@ -9,7 +9,7 @@ import {
 } from "../controllers/products/products.js";
 import stripe from "stripe";
 import { addReview } from "../controllers/reviews/reviews.js";
-import { addToCart } from "../controllers/card/card.js";
+import { addToCart, removeFromCard } from "../controllers/card/card.js";
 import Card from "../models/Card.js";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
@@ -80,8 +80,8 @@ router.post("/product/:productId", async (req, res) => {
 	if (response.error) {
 		return res.send(response.error);
 	}
-	res.status(200).json({ message: response.message });
-	// res.redirect("/cart");
+	// res.status(200).json({ message: response.message });
+	res.redirect("/cart");
 });
 
 router.post("/checkout", async (req, res) => {
@@ -123,7 +123,6 @@ router.get("/:id", async (req, res) => {
 	if (response.error) {
 		return res.send(response.error);
 	} else {
-		console.log(response.message);
 		if (req.session.userId) {
 			res.render("product-details", {
 				product: response.message,
@@ -137,6 +136,18 @@ router.get("/:id", async (req, res) => {
 				cart: [],
 			});
 		}
+	}
+});
+
+router.post("/remove/:productId", async (req, res) => {
+	const response = await removeFromCard(
+		req.params.productId,
+		req.session.userId
+	);
+	if (response.error) {
+		return res.send(response.error);
+	} else {
+		return res.redirect("/cart");
 	}
 });
 
