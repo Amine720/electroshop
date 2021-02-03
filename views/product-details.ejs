@@ -1,4 +1,4 @@
-<%- include ('partials/nav', {user, cart}) %> 
+<%- include ('partials/nav', {user, cart, csrfToken}) %> 
 	
 
 		<section class="product-info">
@@ -26,6 +26,7 @@
 
 				<div class="product-actions">
 					<form action="<%= `/api/products/product/${product._id}` %>" method="post" style="display: flex;">
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 						<div><span>Qty</span> <input type="number" min="1" name="quantity" /></div>
 						<div>
 							<button class="card-btn" type="submit">

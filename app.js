@@ -7,16 +7,19 @@ import users from "./routes/users.js";
 import products from "./routes/products.js";
 import categories from "./routes/categories.js";
 import dotenv from "dotenv";
-import addProducts from "./seeders/product-seeder.js";
 import cors from "cors";
 import session from "express-session";
-import Product from "./models/Product.js";
-import User from "./models/User.js";
+
+import csrf from "csurf";
+import flash from "express-flash";
 import { cartProducts } from "./controllers/card/card.js";
 dotenv.config();
 
 const app = express();
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ extended: false }));
 app.use(cors());
+app.use(flash());
 app.use(
 	session({
 		secret: "mysecretkey",
@@ -27,6 +30,16 @@ app.use(
 		},
 	})
 );
+
+app.use(csrf());
+app.use(function (err, req, res, next) {
+	if (err.code !== "EBADCSRFTOKEN") return next(err);
+
+	res.status(403);
+	req.flash("error", "Unauthorized");
+	res.redirect("/login");
+});
+
 const __dirname = path.resolve();
 app.use(
 	helmet({
@@ -47,8 +60,6 @@ app.use(
 );
 app.use("/api/products/", express.static(`${__dirname}/public`));
 app.use("/api/categories/", express.static(`${__dirname}/public`));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json({ extended: false }));
 app.set("view engine", "ejs");
 
 // connect to db
@@ -60,9 +71,14 @@ app.get("/", async (req, res) => {
 		res.render("home", {
 			user: req.session.username,
 			cart: cart.products.length,
+			csrfToken: req.csrfToken(),
 		});
 	} else {
-		res.render("home", { user: "guest", cart: 0 });
+		res.render("home", {
+			user: "guest",
+			cart: 0,
+			csrfToken: req.csrfToken(),
+		});
 	}
 });
 
@@ -77,7 +93,7 @@ app.get("/login", async (req, res) => {
 	}
 	res.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
 	const cart = await cartProducts(req, res);
-	res.render("login", { user: "guest", cart: 0 });
+	res.render("login", { user: "guest", cart: 0, csrfToken: req.csrfToken() });
 });
 
 app.get("/register", async (req, res) => {
@@ -85,7 +101,11 @@ app.get("/register", async (req, res) => {
 		return res.redirect("/");
 	}
 	const cart = await cartProducts(req, res);
-	res.render("register", { user: "guest", cart: 0 });
+	res.render("register", {
+		user: "guest",
+		cart: 0,
+		csrfToken: req.csrfToken(),
+	});
 });
 
 app.post("/logout", (req, res) => {
@@ -109,7 +129,7 @@ app.post("/logout", (req, res) => {
 // });
 
 app.get("/add-product", (req, res) => {
-	res.render("add-product");
+	res.render("add-product", { csrfToken: req.csrfToken() });
 });
 
 app.get("/cart", async (req, res) => {
@@ -120,6 +140,7 @@ app.get("/cart", async (req, res) => {
 			products: cart.products,
 			total: cart.totalPrice,
 			cart: cart.products.length,
+			csrfToken: req.csrfToken(),
 		});
 	} else {
 		res.render("cart", {
@@ -127,6 +148,7 @@ app.get("/cart", async (req, res) => {
 			cart: [],
 			total: 0,
 			itemsNumber: 0,
+			csrfToken: req.csrfToken(),
 		});
 	}
 });

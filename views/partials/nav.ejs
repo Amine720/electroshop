@@ -42,6 +42,11 @@
 				<div>
 					<% if (user !== "guest") { %>
 					<form method="POST" action="/logout">
+						<input
+							type="hidden"
+							name="_csrf"
+							value="<%= csrfToken %>"
+						/>
 						<button type="submit">Logout</button>
 					</form>
 					<% } %>

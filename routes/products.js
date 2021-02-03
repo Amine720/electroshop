@@ -10,9 +10,7 @@ import {
 import stripe from "stripe";
 import { addReview } from "../controllers/reviews/reviews.js";
 import { addToCart, removeFromCard } from "../controllers/card/card.js";
-import Card from "../models/Card.js";
 import User from "../models/User.js";
-import Product from "../models/Product.js";
 
 const mStripe = stripe(process.env.stripe_secret_key);
 
@@ -127,12 +125,14 @@ router.get("/:id", async (req, res) => {
 				product: response.message,
 				user: req.session.username,
 				cart: user.cart.length,
+				csrfToken: req.csrfToken(),
 			});
 		} else {
 			res.render("product-details", {
 				product: response.message,
 				user: "guest",
 				cart: [],
+				csrfToken: req.csrfToken(),
 			});
 		}
 	}

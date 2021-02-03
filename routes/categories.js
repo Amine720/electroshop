@@ -16,7 +16,12 @@ router.get("/:category", async (req, res) => {
 		user = currentUser.username;
 		cart = user.cart.length;
 	}
-	res.render("product-category", { products: response.message, user, cart });
+	res.render("product-category", {
+		products: response.message,
+		user,
+		cart,
+		csrfToken: req.csrfToken(),
+	});
 });
 
 export default router;

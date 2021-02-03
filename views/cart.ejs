@@ -1,4 +1,4 @@
-<%- include ('partials/nav', {user, cart}) %> 
+<%- include ('partials/nav', {user, cart, csrfToken}) %> 
 
       <% if (cart > 0) { %>
          <div>
@@ -26,6 +26,7 @@
          
                      <div class="product-actions">
                         <form action="/api/products/remove/<%= product._id %>" method="post">
+                           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                            <div>
                               <button class="card-btn">Remove from cart</button>
                            </div>
@@ -37,6 +38,7 @@
             <h1 class="total-amount">Total Price: <%= total %> </h1>
    
             <form action="/api/products/checkout" method="POST">
+               <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                <script
                  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                  data-key="pk_test_51HgXS9AM0fYeg1Kdd2cM4tI74MmHu7ZBHxiQVqOgziZfDYnQGkFbzL9oH4Z5IUYv8dh60BujZWa54tGAh902lzRR00MmVwHQVn"

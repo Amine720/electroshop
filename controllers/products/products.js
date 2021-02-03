@@ -1,4 +1,3 @@
-import Category from "../../models/Category.js";
 import Product from "../../models/Product.js";
 
 export const addProduct = async (data) => {

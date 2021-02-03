@@ -1,4 +1,4 @@
-<%- include ('partials/nav', {user, cart}) %> 
+<%- include ('partials/nav', {user, cart, csrfToken}) %> 
     <% if (products.length > 0) { %>
         <div>
             <% products.forEach(product => { %>
