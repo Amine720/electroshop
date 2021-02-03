@@ -14,9 +14,7 @@ import Card from "../models/Card.js";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
 
-const mStripe = stripe(
-	"sk_test_51HgXS9AM0fYeg1Kd3UInSAKEkdySDyetIdEEpZaRjm14zD2fjX1YXpLInraFXEjkRo8xtAU8JKNdE4gM0gpRCQya00n6UHYx5j"
-);
+const mStripe = stripe(process.env.stripe_secret_key);
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
