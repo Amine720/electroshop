@@ -5,6 +5,7 @@ import morgan from "morgan";
 import connectDB from "./config/db.js";
 import users from "./routes/users.js";
 import products from "./routes/products.js";
+import categories from "./routes/categories.js";
 import dotenv from "dotenv";
 import addProducts from "./seeders/product-seeder.js";
 import cors from "cors";
@@ -40,7 +41,12 @@ app.use(
 	"/api/products/public/uploads/",
 	express.static(`${__dirname}/public/uploads/`)
 );
+app.use(
+	"/api/categories/public/uploads/",
+	express.static(`${__dirname}/public/uploads/`)
+);
 app.use("/api/products/", express.static(`${__dirname}/public`));
+app.use("/api/categories/", express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ extended: false }));
 app.set("view engine", "ejs");
@@ -116,6 +122,7 @@ app.get("/cart", async (req, res) => {
 
 app.use("/api/users", users);
 app.use("/api/products", products);
+app.use("/api/categories", categories);
 
 const PORT = 5000 || process.env.PORT;
 app.listen(PORT, () => {

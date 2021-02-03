@@ -93,6 +93,13 @@ ion-icon {
 	padding-left: 20px;
 }
 
+.section-category .categories a {
+	text-decoration: none;
+	color: #2f83fa;
+	font-weight: 700;
+	margin-top: 8px;
+}
+
 /* product details */
 
 .star {

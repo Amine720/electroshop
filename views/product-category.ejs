@@ -1,0 +1,34 @@
+<%- include ('partials/nav', {user, cart}) %> 
+    <% if (products.length > 0) { %>
+        <div>
+            <% products.forEach(product => { %>
+            <section class="product-info">
+                <div class="img"><img src="<%= product.photos[0] %>" width="70%" /></div>
+                <div class="detail">
+                    <h1><%= product.title %></h1>
+                    <p class="price">&dollar;<%= product.price %></p>
+                    <div class="review-count">
+                        <div>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        <ion-icon class="star" name="star"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="review-count stock">
+                        <ion-icon class="checkmark" name="checkmark"></ion-icon>
+                        <p>In stock</p>
+                    </div>
+                    <p class="product-id">SKU P-<%= product._id %></p>
+                    <p class="description"><%= product.title %></p>
+                </div>
+            </section>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <h1 style="margin-top: 50px; text-align: center;">No products for this category</h1>
+    <% } %>
+     
+</body>
+</html>
