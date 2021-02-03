@@ -107,8 +107,15 @@ ion-icon {
 	padding: 20px;
 }
 
-.product-info div:first-child {
+.product-info .img {
 	margin-right: 50px;
+	display: flex;
+	justify-content: center;
+}
+
+.product-info .detail,
+.product-info .img {
+	flex: 1;
 }
 
 .product-actions {
@@ -303,6 +310,19 @@ form button:hover {
 .card-btn:hover {
 	opacity: 0.8;
 	cursor: pointer;
+}
+
+.total-amount {
+	margin-top: 60px;
+	margin-left: 140px;
+}
+
+.checkout-btn {
+	width: 150px;
+	margin-top: 20px;
+	margin-bottom: 60px;
+	margin-left: 140px;
+	border-radius: 10px;
 }
 
 .auth-form-container {

@@ -25,7 +25,7 @@
 				<p class="description"><%= product.title %></p>
 
 				<div class="product-actions">
-					<form action="<%= `/api/products/product/${product._id}` %>" method="post">
+					<form action="<%= `/api/products/product/${product._id}` %>" method="post" style="display: flex;">
 						<div><span>Qty</span> <input type="number" min="1" name="quantity" /></div>
 						<div>
 							<button class="card-btn" type="submit">
@@ -34,9 +34,6 @@
 							</button>
 						</div>
 					</form>
-					<div class="heart">
-						<ion-icon name="heart-outline"></ion-icon>
-					</div>
 				</div>
 			</div>
 		</section>

@@ -124,10 +124,11 @@ router.get("/:id", async (req, res) => {
 		return res.send(response.error);
 	} else {
 		if (req.session.userId) {
+			const user = await User.findById(req.session.userId);
 			res.render("product-details", {
 				product: response.message,
 				user: req.session.username,
-				cart: req.session.cart,
+				cart: user.cart.length,
 			});
 		} else {
 			res.render("product-details", {

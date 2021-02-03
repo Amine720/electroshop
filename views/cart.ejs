@@ -4,8 +4,8 @@
          <div>
             <% products.forEach(product => { %>
                <section class="product-info">
-                  <div><img src="<%= product.photos[0] %>" /></div>
-                  <div>
+                  <div class="img"><img src="<%= product.photos[0] %>" width="70%" /></div>
+                  <div class="detail">
                      <h1><%= product.title %></h1>
                      <p class="price">&dollar;<%= product.price %></p>
                      <div class="review-count">
@@ -34,7 +34,7 @@
                   </div>
                </section>
             <% }) %>
-            <h1>Total Price: <%= total %> </h1>
+            <h1 class="total-amount">Total Price: <%= total %> </h1>
    
             <form action="/api/products/checkout" method="POST">
                <script
@@ -50,7 +50,7 @@
                  // Hide default stripe button
                  document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
                </script>
-               <button type="submit" class="btn btn-outline-dark text-white btn-lg">Checkout</button>
+               <button type="submit" class="checkout-btn">Checkout</button>
              </form>
         </div>
       <% } else { %>
