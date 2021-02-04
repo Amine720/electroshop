@@ -14,7 +14,7 @@ router.get("/:category", async (req, res) => {
 	if (req.session.userId) {
 		let currentUser = await User.findById(req.session.userId);
 		user = currentUser.username;
-		cart = user.cart.length;
+		cart = currentUser.cart.length;
 	}
 	res.render("product-category", {
 		products: response.message,
