@@ -1,5 +1,14 @@
 import Product from "../../models/Product.js";
 
+export const getAllProducts = async () => {
+	try {
+		const products = await Product.find({});
+		return { message: products };
+	} catch (err) {
+		return { error: err.message };
+	}
+};
+
 export const addProduct = async (data) => {
 	try {
 		const product = new Product({

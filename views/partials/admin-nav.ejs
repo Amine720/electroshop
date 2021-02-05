@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="fonts/NunitoSans-Regular.ttf" />
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/swiper/swiper-bundle.min.css"
+		/>
+		<script
+			type="module"
+			src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js"
+		></script>
+		<script
+			nomodule=""
+			src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.js"
+		></script>
+		<link rel="stylesheet" href="/css/styles.css" />
+		<title>Electroshop</title>
+		<link rel="shortcut icon" type="image/png" href="/assets/logo.png" />
+	</head>
+	<body>
+		<header>
+			<div>
+				<a href="/"><img src="assets/logo.png" /></a>
+			</div>
+			<div class="admin-header">
+				<div>
+					<a href="/admin/products" class="products">Products</a>
+				</div>
+				<div>
+					<a href="/admin/categories" class="categories"
+						>Categories</a
+					>
+				</div>
+				<form method="POST" action="/logout">
+					<button type="submit">Logout</button>
+				</form>
+			</div>
+		</header>

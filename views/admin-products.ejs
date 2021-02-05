@@ -1,0 +1,38 @@
+<%- include ('partials/admin-nav') %> 
+		<div class="admin-products">
+			<div class="wrapper">
+				<div class="links">
+					<a href="/admin/products/add" class="products">Add Product</a>
+				</div>
+				<table>
+					<tr>
+						<th>Image</th>
+						<th>Title</th>
+						<th>Category</th>
+						<th>Price</th>
+						<th>Quantity</th>
+						<th>Featured</th>
+						<th>New</th>
+						<th></th>
+						<th></th>
+					</tr>
+					<% products.forEach(product => { %>
+					<tr>
+						<td>
+							<img src="<%= product.photos[0] %>" width="100px" />
+						</td>
+						<td><%= product.title %></td>
+						<td><%= product.category %></td>
+						<td><%= product.price %></td>
+						<td><%= product.quantity %></td>
+						<td><%= product.featured %></td>
+						<td><%= product.new %></td>
+						<td><a href="/admin/products/update/<%= product._id  %> " class="update">Update</a></td>
+						<td><a class="remove">Remove</a></td>
+					</tr>
+					<% }) %>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

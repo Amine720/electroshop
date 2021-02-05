@@ -1,5 +1,14 @@
 import Category from "../../models/Category.js";
 
+export const findCategory = async (id) => {
+	try {
+		const response = await Category.findById(id);
+		return { message: response };
+	} catch (err) {
+		return { error: err.message };
+	}
+};
+
 export const addCategory = async (categoryName) => {
 	try {
 		await Category.insert({ name: categoryName });

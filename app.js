@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import users from "./routes/users.js";
 import products from "./routes/products.js";
 import categories from "./routes/categories.js";
+import admin from "./routes/admin.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import session from "express-session";
@@ -13,6 +14,7 @@ import session from "express-session";
 import csrf from "csurf";
 import flash from "express-flash";
 import { cartProducts } from "./controllers/card/card.js";
+import isAdmin from "./middlewares/checkAdmin.js";
 dotenv.config();
 
 const app = express();
@@ -51,6 +53,31 @@ app.use(express.static(`${__dirname}/public`));
 app.use("/public/uploads/", express.static(`${__dirname}/public/uploads/`));
 app.use("/public/assets", express.static(`${__dirname}/public/assets/`));
 app.use(
+	"/admin/products/update/public/uploads/",
+	express.static(`${__dirname}/public/uploads/`)
+);
+app.use(
+	"/admin/products/assets/",
+	express.static(`${__dirname}/public/assets/`)
+);
+app.use(
+	"/admin/products/update/assets",
+	express.static(`${__dirname}/public/uploads/`)
+);
+app.use(
+	"/admin/public/uploads/",
+	express.static(`${__dirname}/public/assets/`)
+);
+app.use(
+	"/admin/categories/assets",
+	express.static(`${__dirname}/public/assets/`)
+);
+app.use("/admin/assets/", express.static(`${__dirname}/public/assets/`));
+app.use(
+	"/admin/products/public/uploads/",
+	express.static(`${__dirname}/public/uploads/`)
+);
+app.use(
 	"/api/products/public/uploads/",
 	express.static(`${__dirname}/public/uploads/`)
 );
@@ -58,6 +85,7 @@ app.use(
 	"/api/categories/public/uploads/",
 	express.static(`${__dirname}/public/uploads/`)
 );
+
 app.use("/api/products/", express.static(`${__dirname}/public`));
 app.use("/api/categories/", express.static(`${__dirname}/public`));
 app.set("view engine", "ejs");
@@ -156,6 +184,7 @@ app.get("/cart", async (req, res) => {
 app.use("/api/users", users);
 app.use("/api/products", products);
 app.use("/api/categories", categories);
+app.use("/admin", isAdmin(), admin);
 
 const PORT = 5000 || process.env.PORT;
 app.listen(PORT, () => {

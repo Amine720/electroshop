@@ -1,0 +1,26 @@
+<%- include ('partials/admin-nav') %> 
+		<div class="admin-products">
+			<div class="wrapper">
+				<div class="links">
+					<a href="/admin/categories/add" class="categories"
+						>Add Category</a
+					>
+				</div>
+				<table style="width: 100%" class="category-table">
+					<tr>
+						<th>Name</th>
+						<th></th>
+						<th></th>
+					</tr>
+					<% categories.forEach(category=> { %>
+					<tr>
+						<td><%= category.name %></td>
+						<td><a href="/admin/categories/update/<%= category._id  %>" class="update">Update</a></td>
+						<td><a class="remove">Remove</a></td>
+					</tr>
+					<% }) %>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

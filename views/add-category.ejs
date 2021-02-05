@@ -1,0 +1,13 @@
+<%- include ('partials/admin-nav') %> 
+		<div class="add-product">
+			<h1><%= category ? "Update Category" : "Add Category" %> </h1>
+			<form
+				method="POST"
+				action="/api/categories/add"
+			>
+				<input type="text" name="name" placeholder="title" value="<%= category ? category.name : "" %>" /> <br /><br />
+				<button type="submit"><%= category ? "Update category" : "Add category" %></button>
+			</form>
+		</div>
+	</body>
+</html>
