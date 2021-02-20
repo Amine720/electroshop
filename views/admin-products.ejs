@@ -1,4 +1,9 @@
 <%- include ('partials/admin-nav') %> 
+<% if (messages.success) { %>
+	<div style="background-color: #2f83fa; color: white; padding: 20px; text-align: center; font-size: 20px;">
+		<p><%= messages.success %></p>
+	</div>
+<% } %>
 		<div class="admin-products">
 			<div class="wrapper">
 				<div class="links">
@@ -28,11 +33,29 @@
 						<td><%= product.featured %></td>
 						<td><%= product.new %></td>
 						<td><a href="/admin/products/update/<%= product._id  %> " class="update">Update</a></td>
-						<td><a class="remove">Remove</a></td>
+						<td>
+
+							<form class="delform" method="POST" action="/admin/products/remove/<%= product._id  %> ">
+								<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+								<button type="submit" class="remove">Remove</button>
+							</form>
+						</td>
 					</tr>
 					<% }) %>
 				</table>
 			</div>
 		</div>
+
+		<script>
+			const form = document.querySelector(".delform")
+			form.addEventListener("submit", e => {
+				const remove = confirm("Are you sure want to remove this product")
+				if(!remove){
+					e.preventDefault()
+					window.history.back()
+				}
+			})
+		</script>
+
 	</body>
 </html>

@@ -90,3 +90,39 @@ export const getNewArrivalProducts = async () => {
 		return { error: err.message };
 	}
 };
+
+export const updateProduct = async (
+	productId,
+	title,
+	description,
+	price,
+	isNew,
+	featured,
+	quantity
+) => {
+	console.log("NEW ============> " + isNew);
+	console.log("FEATURED ===================> " + featured);
+	if (featured === "on") {
+		featured = true;
+	} else {
+		featured = false;
+	}
+	if (isNew === "on") {
+		isNew = true;
+	} else {
+		isNew = false;
+	}
+	try {
+		await Product.findByIdAndUpdate(productId, {
+			title,
+			description,
+			price: +price,
+			new: isNew,
+			featured,
+			quantity: +quantity,
+		});
+		return { message: "Product has been updated successfully" };
+	} catch (err) {
+		return { error: err.message };
+	}
+};

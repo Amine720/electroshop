@@ -1,11 +1,12 @@
 <%- include ('partials/admin-nav') %> 
+
 		<div class="add-product">
 			<h1><%= product ? "Update Product" : "Add Product" %> </h1>
 			<form
 				method="POST"
-				action="/api/products/add"
-				enctype="multipart/form-data"
+				action="<%= product ? "/admin/products/update/"+product._id : "/api/products/add" %> "
 			>
+				<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 				<input type="text" name="title" placeholder="title" value="<%= product ? product.title : "" %>" /> <br /><br />
 				<input type="number" step="0.01" name="price" placeholder="price" value="<%= product ? product.price : 0 %>" />
 				<br /><br />
@@ -15,9 +16,9 @@
 				<br /><br />
 				
 				<% if (product && product.new === true) { %>
-					<span>New </span><input type="checkbox" name="new" checked /> <br /><br />
+					<span>New </span><input type="checkbox" name="isNew" checked /> <br /><br />
 				<% } else { %>
-					<span>New </span><input type="checkbox" name="new" /> <br /><br />
+					<span>New </span><input type="checkbox" name="isNew" /> <br /><br />
 				<% } %>
 				 
 				<% if (product && product.featured === true) { %>
@@ -26,7 +27,6 @@
 					<span>Featured </span><input type="checkbox" name="featured" /> <br /><br />
 				<% } %>
 
-				<input type="file" name="photos" multiple /> <br /><br />
 				<% if (product) { %>
 					<div>
 						<% product.photos.forEach(photo => { %>
