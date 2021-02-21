@@ -32,7 +32,8 @@ router.post("/add", upload.array("photos", 10), async (req, res) => {
 	if (response.error) {
 		return res.send(response.error);
 	}
-	res.status(201).json({ message: response.message });
+	req.flash("success", response.message);
+	res.redirect("/admin/products/");
 });
 
 router.get("/featured", async (req, res) => {

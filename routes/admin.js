@@ -26,7 +26,7 @@ router.get("/categories", async (req, res) => {
 });
 
 router.get("/products/add", (req, res) => {
-	res.render("add-product", { product: false });
+	res.render("add-product", { product: false, csrfToken: req.csrfToken() });
 });
 
 router.get("/categories/add", (req, res) => {

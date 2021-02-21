@@ -4,7 +4,8 @@
 			<h1><%= product ? "Update Product" : "Add Product" %> </h1>
 			<form
 				method="POST"
-				action="<%= product ? "/admin/products/update/"+product._id : "/api/products/add" %> "
+				action="<%= product ? "/admin/products/update/"+product._id : "/api/products/add" %>"
+				enctype="<%= product? "application/x-www-form-urlencoded" : "multipart/form-data" %>" 
 			>
 				<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 				<input type="text" name="title" placeholder="title" value="<%= product ? product.title : "" %>" /> <br /><br />
@@ -30,10 +31,15 @@
 				<% if (product) { %>
 					<div>
 						<% product.photos.forEach(photo => { %>
-							<img src='<%= photo %> ' width="150px" />
+							<img src='<%= photo %>' width="150px" />
 						<% }) %>
 					</div>
+				<% } else { %>
+					<div>
+						<input type="file" name="photos" multiple />
+					</div>
 				<% } %>
+				 
 				<button type="submit"><%= product ? "Update product" : "Add product" %></button>
 			</form>
 		</div>

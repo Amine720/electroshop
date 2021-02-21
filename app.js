@@ -147,15 +147,6 @@ app.post("/logout", (req, res) => {
 	res.redirect("/");
 });
 
-// app.get("/dashboard", (req, res) => {
-// 	console.log(req.session);
-// 	if (!req.session.userId) {
-// 		return res.redirect("/login");
-// 	}
-// 	res.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
-// 	res.send("dashboard");
-// });
-
 app.get("/add-product", (req, res) => {
 	res.render("add-product", { csrfToken: req.csrfToken() });
 });

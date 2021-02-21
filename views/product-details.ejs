@@ -79,6 +79,7 @@
 		<section class="review-form">
 			<h1>Submit your review</h1>
 			<form action="/api/products/review/<%= product._id %> " method="POST">
+				<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 				<div>
 					<p>Your rating:</p>
 					<p><input type="number" name="rating" min="1" max="5" /></p>
@@ -105,10 +106,6 @@
 			const review = document.querySelector(".review");
 			const cardBtn = document.querySelector(".card-btn");
 			const reviewbtn = document.querySelector(".review")
-
-			// cardBtn.addEventListener("click", (e) => {
-			// 	console.log(e);
-			// });
 
 			detailsNav.addEventListener("click", (e) => {
 				console.log(e.target);
