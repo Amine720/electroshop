@@ -15,6 +15,8 @@ import csrf from "csurf";
 import flash from "express-flash";
 import { cartProducts } from "./controllers/card/card.js";
 import isAdmin from "./middlewares/checkAdmin.js";
+import { allCategories } from "./controllers/categories/categories.js";
+import Admin from "./models/Admin.js";
 dotenv.config();
 
 const app = express();
@@ -57,6 +59,10 @@ app.use(
 	express.static(`${__dirname}/public/uploads/`)
 );
 app.use(
+	"/admin/public/uploads/",
+	express.static(`${__dirname}/public/uploads/`)
+);
+app.use(
 	"/admin/products/assets/",
 	express.static(`${__dirname}/public/assets/`)
 );
@@ -94,18 +100,22 @@ app.set("view engine", "ejs");
 connectDB();
 
 app.get("/", async (req, res) => {
+	let categories = await allCategories();
+	categories = categories.message;
 	if (req.session.userId) {
 		const cart = await cartProducts(req, res);
 		res.render("home", {
 			user: req.session.username,
 			cart: cart.products.length,
 			csrfToken: req.csrfToken(),
+			categories: categories,
 		});
 	} else {
 		res.render("home", {
 			user: "guest",
 			cart: 0,
 			csrfToken: req.csrfToken(),
+			categories: categories,
 		});
 	}
 });
@@ -137,13 +147,11 @@ app.get("/register", async (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-	if (req.session.userId) {
-		req.session.destroy((err) => {
-			if (err) {
-				return res.json("Error occured");
-			}
-		});
-	}
+	req.session.destroy((err) => {
+		if (err) {
+			return res.json("Error occured");
+		}
+	});
 	res.redirect("/");
 });
 
@@ -172,10 +180,37 @@ app.get("/cart", async (req, res) => {
 	}
 });
 
+app.get("/admin/login", (req, res) => {
+	res.render("admin-login", {
+		user: "guest",
+		cart: 0,
+		csrfToken: req.csrfToken(),
+	});
+});
+
+app.post("/admin/login", async (req, res) => {
+	const { email, password } = req.body;
+	try {
+		const admin = await Admin.findOne({ email, password });
+		if (admin) {
+			req.session.isAdmin = true;
+			res.redirect("/admin/products");
+		} else {
+			res.redirect("/admin/login");
+		}
+	} catch (err) {
+		res.json({ error: err });
+	}
+});
+
 app.use("/api/users", users);
 app.use("/api/products", products);
 app.use("/api/categories", categories);
 app.use("/admin", isAdmin(), admin);
+
+app.get("*", (req, res) => {
+	res.send("404, NOT FOUND");
+});
 
 const PORT = 5000 || process.env.PORT;
 app.listen(PORT, () => {

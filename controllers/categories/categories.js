@@ -9,9 +9,13 @@ export const findCategory = async (id) => {
 	}
 };
 
-export const addCategory = async (categoryName) => {
+export const addCategory = async (categoryName, categoryImage) => {
 	try {
-		await Category.insert({ name: categoryName });
+		const category = new Category({
+			name: categoryName,
+			photo: categoryImage,
+		});
+		await category.save();
 		return { message: "Category added successfully" };
 	} catch (err) {
 		return { error: err.message };

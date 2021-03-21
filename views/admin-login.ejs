@@ -1,0 +1,25 @@
+<%- include ('partials/nav', {user, cart, csrfToken}) %> 
+<% if (messages.error) { %>
+	<div style="background-color: #2f83fa; color: white; padding: 20px; text-align: center; font-size: 20px;">
+		<p><%= messages.error %></p>
+	</div>
+<% } %>
+<div class="auth-form-container">
+    <h1>Admin</h1>
+	<form method="POST" action="/admin/login" class="auth-form">
+		<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+		<div class="field">
+			<label for="email">Email</label>
+			<input type="text" name="email" id="email" placeholder="Email..." />
+		</div>
+		<div class="field">
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" placeholder="Password..." />
+		</div>
+		<div class="field">
+			<button type="submit" class="auth-btn">Login</button>
+		</div>
+	</form>
+</div>
+</body>
+</html>

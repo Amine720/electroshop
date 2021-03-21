@@ -24,36 +24,13 @@
 		<section class="section-category">
 			<h1>Popluar categories</h1>
 			<div class="categories">
-				<div>
-					<img src="assets/computer.jpg" />
-					<p>Computer &amp; Laptop</p>
-					<a href="/api/categories/computers">View products</a>
-				</div>
-				<div>
-					<img src="assets/cameras.jpg" />
-					<p>Digital &amp; Cameras</p>
-					<a href="/api/categories/cameras">View products</a>
-				</div>
-				<div>
-					<img src="assets/phone.jpg" />
-					<p>Smartphones</p>
-					<a href="/api/categories/phones">View products</a>
-				</div>
-				<div>
-					<img src="assets/tv.jpg" />
-					<p>Smart &amp; Televisions</p>
-					<a href="/api/categories/tv">View products</a>
-				</div>
-				<div>
-					<img src="assets/watches.jpg" />
-					<p>Smart &amp; Watches</p>
-					<a href="/api/categories/watches">View products</a>
-				</div>
-				<div>
-					<img src="assets/headphones.jpg" />
-					<p>Headphones</p>
-					<a href="/api/categories/headphones">View products</a>
-				</div>
+				<% categories.forEach(category => { %>
+					<div>
+						<img src="<%= category.photo %> " />
+						<p><%= category.name %> </p>
+						<a href="/api/categories/<%= category._id %> ">View products</a>
+					</div>
+				<% }) %>
 			</div>
 		</section>
 

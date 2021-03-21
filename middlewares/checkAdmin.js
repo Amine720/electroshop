@@ -1,7 +1,10 @@
 const isAdmin = () => {
 	return (req, res, next) => {
-		console.log("ROUTE URL FROM MIDDLEWARE ========>", req.url);
-		next();
+		if (req.session.isAdmin) {
+			next();
+		} else {
+			return res.status(401).json({ message: "Not Authorized" });
+		}
 	};
 };
 

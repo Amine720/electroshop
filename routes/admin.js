@@ -22,15 +22,19 @@ router.get("/products", async (req, res) => {
 
 router.get("/categories", async (req, res) => {
 	const response = await allCategories();
-	res.render("admin-categories", { categories: response.message });
+	res.render("admin-categories", {
+		categories: response.message,
+		csrfToken: req.csrfToken(),
+	});
 });
 
 router.get("/products/add", (req, res) => {
+	console.log(req.csrfToken());
 	res.render("add-product", { product: false, csrfToken: req.csrfToken() });
 });
 
 router.get("/categories/add", (req, res) => {
-	res.render("add-category", { category: false });
+	res.render("add-category", { category: false, csrfToken: req.csrfToken() });
 });
 
 router.get("/products/update/:id", async (req, res) => {

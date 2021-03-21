@@ -4,7 +4,6 @@ const featureCategories = document.querySelector(".featured .categories");
 const newCategories = document.querySelector(".new .categories");
 
 const getDetails = (id) => {
-	console.log(id);
 	window.location.assign(`/api/products/${id}`);
 };
 
@@ -46,7 +45,6 @@ const newObserver = new IntersectionObserver((entries) => {
 			fetch("http://localhost:5000/api/products/new")
 				.then((res) => res.json())
 				.then((data) => {
-					console.log(data);
 					data.message.forEach((product) => {
 						let div = document.createElement("div");
 						let img = new Image(150, 130);

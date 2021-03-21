@@ -1,4 +1,4 @@
-<%- include ('partials/admin-nav') %> 
+<%- include ('partials/admin-nav', {csrfToken}) %> 
 		<div class="admin-products">
 			<div class="wrapper">
 				<div class="links">
@@ -8,12 +8,14 @@
 				</div>
 				<table style="width: 100%" class="category-table">
 					<tr>
+						<th></th>
 						<th>Name</th>
 						<th></th>
 						<th></th>
 					</tr>
 					<% categories.forEach(category=> { %>
 					<tr>
+						<td><img src="<%= category.photo %> "  /></td>
 						<td><%= category.name %></td>
 						<td><a href="/admin/categories/update/<%= category._id  %>" class="update">Update</a></td>
 						<td><a class="remove">Remove</a></td>

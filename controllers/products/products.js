@@ -1,3 +1,4 @@
+import Category from "../../models/Category.js";
 import Product from "../../models/Product.js";
 
 export const getAllProducts = async () => {
@@ -62,9 +63,11 @@ export const searchProductByPriceRange = async (min, max) => {
 	}
 };
 
-export const searchProductByCategory = async (categoryName) => {
+export const searchProductByCategory = async (id) => {
 	try {
-		const products = await Product.find({ category: categoryName });
+		const category = await Category.findById(id);
+		console.log(category);
+		const products = await Product.find({ category: category.name });
 		return { message: products };
 	} catch (err) {
 		return { error: err.message };

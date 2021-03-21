@@ -26,6 +26,13 @@
 				<a href="/"><img src="assets/logo.png" /></a>
 			</div>
 			<div class="header__account_cart">
+				<div
+					class="account"
+					onclick="window.location.assign('/admin/login')"
+				>
+					<div><ion-icon name="power-outline"></ion-icon></div>
+					<p>Admin</p>
+				</div>
 				<div class="account" onclick="window.location.assign('/login')">
 					<div><ion-icon name="person-outline"></ion-icon></div>
 					<p>account - <%= user %></p>

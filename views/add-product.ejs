@@ -1,4 +1,4 @@
-<%- include ('partials/admin-nav') %> 
+<%- include ('partials/admin-nav', csrfToken) %> 
 
 		<div class="add-product">
 			<h1><%= product ? "Update Product" : "Add Product" %> </h1>
