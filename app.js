@@ -7,16 +7,18 @@ import users from "./routes/users.js";
 import products from "./routes/products.js";
 import categories from "./routes/categories.js";
 import admin from "./routes/admin.js";
+import adminLogin from "./routes/adminLogin.js";
+import cart from "./routes/cart.js";
+import home from "./routes/home.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import session from "express-session";
 
 import csrf from "csurf";
 import flash from "express-flash";
-import { cartProducts } from "./controllers/card/card.js";
 import isAdmin from "./middlewares/checkAdmin.js";
-import { allCategories } from "./controllers/categories/categories.js";
-import Admin from "./models/Admin.js";
+import checkUserId from "./middlewares/checkUserId.js";
+import loginRegisterRoute from "./utils/loginRegister.js";
 dotenv.config();
 
 const app = express();
@@ -45,6 +47,7 @@ app.use(function (err, req, res, next) {
 });
 
 const __dirname = path.resolve();
+console.log(__dirname);
 app.use(
 	helmet({
 		contentSecurityPolicy: false,
@@ -99,52 +102,15 @@ app.set("view engine", "ejs");
 // connect to db
 connectDB();
 
-app.get("/", async (req, res) => {
-	let categories = await allCategories();
-	categories = categories.message;
-	if (req.session.userId) {
-		const cart = await cartProducts(req, res);
-		res.render("home", {
-			user: req.session.username,
-			cart: cart.products.length,
-			csrfToken: req.csrfToken(),
-			categories: categories,
-		});
-	} else {
-		res.render("home", {
-			user: "guest",
-			cart: 0,
-			csrfToken: req.csrfToken(),
-			categories: categories,
-		});
-	}
-});
+app.use("/", home);
 
 // app.get("/seed", async (req, res) => {
 // 	await addProducts();
 // 	res.send("added-successfully");
 // });
 
-app.get("/login", async (req, res) => {
-	if (req.session.userId) {
-		return res.redirect("/");
-	}
-	res.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
-	const cart = await cartProducts(req, res);
-	res.render("login", { user: "guest", cart: 0, csrfToken: req.csrfToken() });
-});
-
-app.get("/register", async (req, res) => {
-	if (req.session.userId) {
-		return res.redirect("/");
-	}
-	const cart = await cartProducts(req, res);
-	res.render("register", {
-		user: "guest",
-		cart: 0,
-		csrfToken: req.csrfToken(),
-	});
-});
+app.get("/login", checkUserId, loginRegisterRoute);
+app.get("/register", checkUserId, loginRegisterRoute);
 
 app.post("/logout", (req, res) => {
 	req.session.destroy((err) => {
@@ -152,62 +118,19 @@ app.post("/logout", (req, res) => {
 			return res.json("Error occured");
 		}
 	});
+	res.setHeader("Cache-Control", "no-cach, no-store, must-revalidate");
 	res.redirect("/");
 });
 
 app.get("/add-product", (req, res) => {
 	res.render("add-product", { csrfToken: req.csrfToken() });
 });
-
-app.get("/cart", async (req, res) => {
-	if (req.session.userId) {
-		const cart = await cartProducts(req, res);
-		res.render("cart", {
-			user: req.session.username,
-			products: cart.products,
-			total: cart.totalPrice,
-			cart: cart.products.length,
-			csrfToken: req.csrfToken(),
-		});
-	} else {
-		res.render("cart", {
-			user: "guest",
-			cart: [],
-			total: 0,
-			itemsNumber: 0,
-			csrfToken: req.csrfToken(),
-		});
-	}
-});
-
-app.get("/admin/login", (req, res) => {
-	res.render("admin-login", {
-		user: "guest",
-		cart: 0,
-		csrfToken: req.csrfToken(),
-	});
-});
-
-app.post("/admin/login", async (req, res) => {
-	const { email, password } = req.body;
-	try {
-		const admin = await Admin.findOne({ email, password });
-		if (admin) {
-			req.session.isAdmin = true;
-			res.redirect("/admin/products");
-		} else {
-			res.redirect("/admin/login");
-		}
-	} catch (err) {
-		res.json({ error: err });
-	}
-});
-
+app.use("/cart", cart);
+app.use("/admin/login", adminLogin);
 app.use("/api/users", users);
 app.use("/api/products", products);
 app.use("/api/categories", categories);
 app.use("/admin", isAdmin(), admin);
-
 app.get("*", (req, res) => {
 	res.send("404, NOT FOUND");
 });
