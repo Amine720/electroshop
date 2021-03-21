@@ -43,7 +43,8 @@ router.post("/add", upload.array("photo", 1), async (req, res) => {
 	console.log(filePath, name);
 	const response = await addCategory(name, filePath);
 	if (response.message) {
-		return res.json({ message: response.message });
+		req.flash("success", response.message);
+		res.redirect("/admin/categories");
 	} else {
 		return res.json({ error: response.error });
 	}

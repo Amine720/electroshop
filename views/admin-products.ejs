@@ -37,7 +37,7 @@
 
 							<form class="delform" method="POST" action="/admin/products/remove/<%= product._id  %> ">
 								<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-								<button type="submit" class="remove" onclick="return confirm('remove?')">Remove</button>
+								<button type="submit" class="remove" onclick="return confirm('Are you sure you want to remove this product ?')">Remove</button>
 							</form>
 						</td>
 					</tr>
@@ -45,17 +45,5 @@
 				</table>
 			</div>
 		</div>
-
-		<script>
-			/*const form = document.querySelector(".delform")
-			form.addEventListener("submit", e => {
-				const remove = confirm("Are you sure want to remove this product")
-				if(!remove){
-					e.preventDefault()
-					window.history.back()
-				}
-			})*/
-		</script>
-
 	</body>
 </html>

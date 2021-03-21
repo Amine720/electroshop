@@ -28,7 +28,21 @@ const router = Router();
 
 router.post("/add", upload.array("photos", 10), async (req, res) => {
 	let photos = req.files.map((file) => file.path);
-	const response = await addProduct({ ...req.body, photos });
+	let newProduct = false;
+	let featuredProduct = false;
+	if ("isNew" in req.body && req.body.isNew === "on") {
+		newProduct = true;
+	}
+	if ("featured" in req.body && req.body.featured === "on") {
+		featuredProduct = true;
+	}
+	const data = {
+		...req.body,
+		photos,
+		isNew: newProduct,
+		featured: featuredProduct,
+	};
+	const response = await addProduct(data);
 	if (response.error) {
 		return res.send(response.error);
 	}

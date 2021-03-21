@@ -1,5 +1,9 @@
-<%- include ('partials/nav', {user, cart, csrfToken}) %> 
-
+<% if (cart === 'Admin') { %>
+	<%- include ('partials/admin-nav', {user, cart, csrfToken}) %> 
+<% } else { %>
+	<%- include ('partials/nav', {csrfToken}) %> 
+<% } %>
+ 
 		<!-- Hero section -->
 		<div class="swiper-container">
 			<div class="swiper-wrapper">

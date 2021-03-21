@@ -3,10 +3,9 @@
 			<h1><%= category ? "Update Category" : "Add Category" %> </h1>
 			<form
 				method="POST"
-				action="/api/categories/add"
+				action="/api/categories/add?_csrf=<%=csrfToken%>"
 				enctype="multipart/form-data"
 			>
-				<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 				<input type="text" name="name" placeholder="title" value="<%= category ? category.name : "" %>" /> <br /><br />
 				<% if (!category) { %>
 				 <input type="file" name="photo" />

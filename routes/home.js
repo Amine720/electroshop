@@ -6,11 +6,11 @@ const router = Router();
 router.get("/", async (req, res) => {
 	let categories = await allCategories();
 	categories = categories.message;
-	if (req.session.userId) {
+	if (req.session.userId || req.session.isAdmin) {
 		const cart = await cartProducts(req, res);
 		res.render("home", {
-			user: req.session.username,
-			cart: cart.products.length,
+			user: req.session.userId ? req.session.username : "Admin",
+			cart: req.session.userId ? cart.products.length : "Admin",
 			csrfToken: req.csrfToken(),
 			categories: categories,
 		});

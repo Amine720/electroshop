@@ -19,6 +19,7 @@ import flash from "express-flash";
 import isAdmin from "./middlewares/checkAdmin.js";
 import checkUserId from "./middlewares/checkUserId.js";
 import loginRegisterRoute from "./utils/loginRegister.js";
+import adminAuthStatus from "./middlewares/adminAuthStatus.js";
 dotenv.config();
 
 const app = express();
@@ -40,14 +41,13 @@ app.use(
 app.use(csrf());
 app.use(function (err, req, res, next) {
 	if (err.code !== "EBADCSRFTOKEN") return next(err);
-
+	console.log(err);
 	res.status(403);
 	req.flash("error", "Unauthorized");
 	res.redirect("/login");
 });
 
 const __dirname = path.resolve();
-console.log(__dirname);
 app.use(
 	helmet({
 		contentSecurityPolicy: false,
@@ -109,8 +109,8 @@ app.use("/", home);
 // 	res.send("added-successfully");
 // });
 
-app.get("/login", checkUserId, loginRegisterRoute);
-app.get("/register", checkUserId, loginRegisterRoute);
+app.get("/login", checkUserId, adminAuthStatus, loginRegisterRoute);
+app.get("/register", checkUserId, adminAuthStatus, loginRegisterRoute);
 
 app.post("/logout", (req, res) => {
 	req.session.destroy((err) => {
@@ -123,14 +123,14 @@ app.post("/logout", (req, res) => {
 });
 
 app.get("/add-product", (req, res) => {
-	res.render("add-product", { csrfToken: req.csrfToken() });
+	res.render("add-product", { product: false, csrfToken: req.csrfToken() });
 });
 app.use("/cart", cart);
-app.use("/admin/login", adminLogin);
+app.use("/admin/login", checkUserId, adminAuthStatus, adminLogin);
 app.use("/api/users", users);
 app.use("/api/products", products);
 app.use("/api/categories", categories);
-app.use("/admin", isAdmin(), admin);
+app.use("/admin", isAdmin, admin);
 app.get("*", (req, res) => {
 	res.send("404, NOT FOUND");
 });

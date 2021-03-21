@@ -16,6 +16,7 @@ router.post("/", async (req, res) => {
 		const admin = await Admin.findOne({ email, password });
 		if (admin) {
 			req.session.isAdmin = true;
+			console.log("REQ.SESSION AFTER LOG IN", req.session);
 			res.redirect("/admin/products");
 		} else {
 			res.redirect("/admin/login");

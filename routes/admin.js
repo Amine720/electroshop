@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
 	allCategories,
+	deleteCategory,
 	findCategory,
 } from "../controllers/categories/categories.js";
 import {
@@ -9,6 +10,7 @@ import {
 	removeProduct,
 	updateProduct,
 } from "../controllers/products/products.js";
+import Category from "../models/Category.js";
 
 const router = Router();
 
@@ -28,9 +30,13 @@ router.get("/categories", async (req, res) => {
 	});
 });
 
-router.get("/products/add", (req, res) => {
-	console.log(req.csrfToken());
-	res.render("add-product", { product: false, csrfToken: req.csrfToken() });
+router.get("/products/add", async (req, res) => {
+	const categories = await Category.find({}).select("name");
+	res.render("add-product", {
+		product: false,
+		csrfToken: req.csrfToken(),
+		categories,
+	});
 });
 
 router.get("/categories/add", (req, res) => {
@@ -78,6 +84,16 @@ router.post("/products/remove/:id", async (req, res) => {
 router.get("/categories/update/:name", async (req, res) => {
 	const response = await findCategory(req.params.name);
 	res.render("add-category", { category: response.message });
+});
+
+router.post("/categories/remove/:id", async (req, res) => {
+	const id = req.params.id;
+	const response = await deleteCategory(id);
+	if (response.error) {
+		return res.send(response.error);
+	}
+	req.flash("success", response.message);
+	res.redirect("/admin/categories/");
 });
 
 export default router;
