@@ -45,15 +45,16 @@ router.get("/categories/add", (req, res) => {
 
 router.get("/products/update/:id", async (req, res) => {
 	const response = await findProdcutById(req.params.id);
+	const categories = await allCategories();
 	res.render("add-product", {
 		product: response.message,
+		categories: categories.message,
 		csrfToken: req.csrfToken(),
 	});
 });
 
 router.post("/products/update/:id", async (req, res) => {
 	const { title, price, description, quantity, isNew, featured } = req.body;
-	console.log("INSIDE UPDATE", req.body);
 	const response = await updateProduct(
 		req.params.id,
 		title,
@@ -83,7 +84,10 @@ router.post("/products/remove/:id", async (req, res) => {
 
 router.get("/categories/update/:name", async (req, res) => {
 	const response = await findCategory(req.params.name);
-	res.render("add-category", { category: response.message });
+	res.render("add-category", {
+		category: response.message,
+		csrfToken: req.csrfToken(),
+	});
 });
 
 router.post("/categories/remove/:id", async (req, res) => {

@@ -66,7 +66,6 @@ export const searchProductByPriceRange = async (min, max) => {
 export const searchProductByCategory = async (id) => {
 	try {
 		const category = await Category.findById(id);
-		console.log(category);
 		const products = await Product.find({ category: category.name });
 		return { message: products };
 	} catch (err) {
@@ -103,8 +102,6 @@ export const updateProduct = async (
 	featured,
 	quantity
 ) => {
-	console.log("NEW ============> " + isNew);
-	console.log("FEATURED ===================> " + featured);
 	if (featured === "on") {
 		featured = true;
 	} else {

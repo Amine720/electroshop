@@ -132,7 +132,7 @@ app.use("/api/products", products);
 app.use("/api/categories", categories);
 app.use("/admin", isAdmin, admin);
 app.get("*", (req, res) => {
-	res.send("404, NOT FOUND");
+	res.render("404");
 });
 
 const PORT = 5000 || process.env.PORT;
