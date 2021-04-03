@@ -3,8 +3,8 @@
 			<h1><%= category ? "Update Category" : "Add Category" %> </h1>
 			<form
 				method="POST"
-				action="/api/categories/add?_csrf=<%=csrfToken%>"
-				enctype="multipart/form-data"
+				action="<%= category ? "/admin/categories/update/"+category._id+"?_csrf="+csrfToken : "/api/categories/add?_csrf="+csrfToken %> "
+				enctype="<%= category? "application/x-www-form-urlencoded" : "multipart/form-data" %>" 
 			>
 				<input type="text" name="name" placeholder="title" value="<%= category ? category.name : "" %>" /> <br /><br />
 				<% if (!category) { %>

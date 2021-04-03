@@ -3,6 +3,7 @@ import {
 	allCategories,
 	deleteCategory,
 	findCategory,
+	updateCategory,
 } from "../controllers/categories/categories.js";
 import {
 	findProdcutById,
@@ -55,8 +56,9 @@ router.get("/products/update/:id", async (req, res) => {
 
 router.post("/products/update/:id", async (req, res) => {
 	const { title, price, description, quantity, isNew, featured } = req.body;
+	const id = req.params.id;
 	const response = await updateProduct(
-		req.params.id,
+		id,
 		title,
 		description,
 		price,
@@ -88,6 +90,17 @@ router.get("/categories/update/:name", async (req, res) => {
 		category: response.message,
 		csrfToken: req.csrfToken(),
 	});
+});
+
+router.post("/categories/update/:id", async (req, res) => {
+	const { name } = req.body;
+	const id = req.params.id;
+	const response = updateCategory(id, name);
+	if (response.error) {
+		return res.send(response.error);
+	}
+	req.flash("success", response.message);
+	res.redirect("/admin/categories/");
 });
 
 router.post("/categories/remove/:id", async (req, res) => {
