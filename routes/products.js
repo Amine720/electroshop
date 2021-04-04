@@ -11,6 +11,7 @@ import stripe from "stripe";
 import { addReview } from "../controllers/reviews/reviews.js";
 import { addToCart, removeFromCard } from "../controllers/card/card.js";
 import User from "../models/User.js";
+import checkVerifiyStatus from "../middlewares/checkVerifiyStatus.js";
 
 const mStripe = stripe(process.env.stripe_secret_key);
 
@@ -79,7 +80,7 @@ router.post("/review/:id", async (req, res) => {
 });
 
 // add product to cart
-router.post("/product/:productId", async (req, res) => {
+router.post("/product/:productId", checkVerifiyStatus, async (req, res) => {
 	const { productId } = req.params;
 	const { quantity } = req.body;
 	const userId = req.session.userId;

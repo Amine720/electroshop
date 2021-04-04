@@ -67,6 +67,10 @@ export const register = async ({
 	} catch (err) {
 		log(err.message);
 		console.log(err.message);
+		return {
+			error: err.message,
+			status: 400,
+		};
 	}
 };
 

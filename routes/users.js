@@ -33,9 +33,13 @@ router.post("/register", async (req, res) => {
 				.status(registerResponse.status)
 				.json({ message: registerResponse.error });
 		}
-		return res
-			.status(registerResponse.status)
-			.json({ message: registerResponse.message });
+		// return res
+		// 	.status(registerResponse.status)
+		// 	.json({ message: registerResponse.message });
+		res.render("verify-email", {
+			message: registerResponse.message,
+			completed: false,
+		});
 	} catch (err) {
 		console.log(err.message);
 	}
@@ -43,7 +47,7 @@ router.post("/register", async (req, res) => {
 
 router.get("/register/verify/:id", async (req, res) => {
 	const response = await verify(req.params.id);
-	return res.json(response);
+	res.render("verify-email", { message: response.message, completed: true });
 });
 
 export default router;
